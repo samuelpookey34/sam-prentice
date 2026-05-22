@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sam Prentice - Happy, Present, Peaceful</title>
+    <meta name="description" content="Build the financial architecture for a life of happiness, presence, and peace. Wealth strategy for founders and creators.">
+    <meta name="keywords" content="wealth strategy, financial architecture, founder coaching, wealth coaching">
+    <meta name="author" content="Sam Prentice">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Sam Prentice - Happy, Present, Peaceful">
+    <meta property="og:description" content="Build the financial architecture for a life of happiness, presence, and peace.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sam-prentice.com">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8GLLCB4PD"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-F8GLLCB4PD');
+    </script>
+    
+    <!-- Lazy Load YouTube Embeds -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lazy load iframes with data-src attribute
+            const iframes = document.querySelectorAll('iframe[data-src]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const iframe = entry.target;
+                        iframe.src = iframe.dataset.src;
+                        observer.unobserve(iframe);
+                    }
+                });
+            }, { rootMargin: '50px' });
+            
+            iframes.forEach(iframe => observer.observe(iframe));
+        });
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ca8a04;
+            --primary-dark: #a16207;
+            --secondary: #4a7c7e;
+            --secondary-light: #6b9fa3;
+            --accent: #d97706;
+            --bg-light: #f8f7f5;
+            --bg-white: #ffffff;
+            --text-dark: #1a1a1a;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Crimson Pro', serif;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: clamp(1.875rem, 5vw, 3rem);
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: clamp(1.25rem, 3vw, 1.875rem);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .container-sm {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--secondary) 0%, #5a8d8f 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('/hero-bg-teal-lg.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            padding: 3rem 0;
+        }
+
+        .hero-text h1 {
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+            line-height: 1.1;
+        }
+
+        .hero-text h1 .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .hero-text p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-dark);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-image picture {
+            display: block;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: auto;
+                padding: 2rem 0;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Section Styles */
+        section {
+            padding: 4rem 0;
+        }
+
+        section.alt-bg {
+            background-color: var(--bg-light);
+        }
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        section h2 .highlight {
+            color: var(--primary);
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .card h3 {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .card-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Framework Section */
+        .framework {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .framework-image {
+            position: relative;
+        }
+
+        .framework-image picture {
+            display: block;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .framework-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .framework-text h3 {
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .framework-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            .framework {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--secondary) 0%, #5a8d8f 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+            border-radius: 1rem;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-section .btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cta-section .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Three Column Layout */
+        .three-col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .three-col-item {
+            text-align: center;
+        }
+
+        .three-col-item h4 {
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .three-col-item p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .three-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        footer .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        footer h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-4 {
+            margin-top: 2rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+
+        .opacity-75 {
+            opacity: 0.75;
+        }
+
+        /* Responsive Images */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">Sam Prentice</div>
+            <ul class="nav-links">
+                <li><a href="#framework">Framework</a></li>
+                <li><a href="#wealth">Wealth</a></li>
+                <li><a href="#cta">Get Started</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>The Goal of Life Is To Be <span class="highlight">Happy, Present,</span> and <span class="highlight">Peaceful</span></h1>
+                    <p>I help founders and creators build the financial architecture to make that possible.</p>
+                    <p>You don't reach peace by chasing more. You reach it by following a proven sequence—from cash flow to wealth, and from wealth to impact.</p>
+                    <p>Stop building from fear. Start designing your path to an end outcome where you wake up happy, work with presence, and sleep peacefully.</p>
+                    <div class="hero-cta">
+                        <a href="https://journey-to-impact.beehiiv.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Join the Email List</a>
+                        <a href="#framework" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <picture>
+                        <source media="(max-width: 640px)" srcset="/sam-headshot-final.webp" type="image/webp">
+                        <source media="(max-width: 640px)" srcset="/sam-headshot-final.jpg" type="image/jpeg">
+                        <source media="(min-width: 641px)" srcset="/sam-headshot-final.webp" type="image/webp">
+                        <img src="/sam-headshot-final.jpg" alt="Sam Prentice" loading="lazy">
+                    </picture>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The 5 Difficult Conversations -->
+    <section id="framework">
+        <div class="container">
+            <h2>The <span class="highlight">5 Difficult Conversations</span></h2>
+            <p class="text-center opacity-75">Everyone needs to have an answer to these questions. Your financial plan exists to make sure you do.</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-number">1</div>
+                    <h3>What happens to me when I have enough?</h3>
+                    <p>Understanding your financial threshold and what true abundance looks like for you.</p>
+                </div>
+                <div class="card">
+                    <div class="card-number">2</div>
+                    <h3>What happens to me when I get sued?</h3>
+                    <p>Asset protection strategies that shield your wealth from legal and creditor threats.</p>
+                </div>
+                <div class="card">
+                    <div class="card-number">3</div>
+                    <h3>What happens to me when taxes are due?</h3>
+                    <p>Strategic tax planning that keeps more of what you earn working for you.</p>
+                </div>
+                <div class="card">
+                    <div class="card-number">4</div>
+                    <h3>What happens when my income gets interrupted?</h3>
+                    <p>Building passive income streams and emergency reserves for stability.</p>
+                </div>
+                <div class="card">
+                    <div class="card-number">5</div>
+                    <h3>What happens when the economy crashes?</h3>
+                    <p>Recession-proof strategies and diversification for long-term security.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wealth Pyramid Section -->
+    <section id="wealth" class="alt-bg">
+        <div class="container">
+            <div class="framework">
+                <div class="framework-image">
+                    <picture>
+                        <source media="(max-width: 640px)" srcset="/optimized-images/wealth-pyramid-educational-v8-sm.webp" type="image/webp">
+                        <source media="(max-width: 1024px)" srcset="/optimized-images/wealth-pyramid-educational-v8-md.webp" type="image/webp">
+                        <source media="(min-width: 1025px)" srcset="/optimized-images/wealth-pyramid-educational-v8-lg.webp" type="image/webp">
+                        <img src="/wealth-pyramid-icon.png" alt="Wealth Pyramid" loading="lazy">
+                    </picture>
+                </div>
+                <div class="framework-text">
+                    <h2>How We Defend Your <span class="highlight">Wealth</span></h2>
+                    <p>A good wealth pyramid is the simple structure that preserves wealth during the 5 difficult conversations.</p>
+                    
+                    <div class="three-col">
+                        <div class="three-col-item">
+                            <h4>75%</h4>
+                            <p><strong>Cash Flow</strong><br>Income-producing assets that generate consistent returns</p>
+                        </div>
+                        <div class="three-col-item">
+                            <h4>20%</h4>
+                            <p><strong>Liquidity</strong><br>Accessible resources for flexibility and opportunities</p>
+                        </div>
+                        <div class="three-col-item">
+                            <h4>5%</h4>
+                            <p><strong>Speculation</strong><br>Growth opportunities without jeopardizing foundation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Purpose, Profit, Pleasure -->
+    <section>
+        <div class="container">
+            <div class="framework">
+                <div class="framework-text">
+                    <h2>The Intersection of <span class="highlight">Purpose, Profit & Pleasure</span></h2>
+                    <p>Your creativity is your most valuable asset. Everything else exists to protect it.</p>
+                    <p>When your financial, emotional, and strategic world is protected, you're free to create, innovate, and lead with impact.</p>
+                    <p>This framework shows how wealth strategy supports your highest creative potential.</p>
+                </div>
+                <div class="framework-image">
+                    <picture>
+                        <source media="(max-width: 640px)" srcset="/optimized-images/purpose-profit-pleasure-v9-sm.webp" type="image/webp">
+                        <source media="(max-width: 1024px)" srcset="/optimized-images/purpose-profit-pleasure-v9-md.webp" type="image/webp">
+                        <source media="(min-width: 1025px)" srcset="/optimized-images/purpose-profit-pleasure-v9-lg.webp" type="image/webp">
+                        <img src="/purpose-profit-pleasure-final.png" alt="Purpose, Profit, Pleasure Framework" loading="lazy">
+                    </picture>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Creativity Protection -->
+    <section class="alt-bg">
+        <div class="container">
+            <div class="framework">
+                <div class="framework-image">
+                    <picture>
+                        <source media="(max-width: 640px)" srcset="/optimized-images/creativity-protection-3rings-sm.webp" type="image/webp">
+                        <source media="(max-width: 1024px)" srcset="/optimized-images/creativity-protection-3rings-md.webp" type="image/webp">
+                        <source media="(min-width: 1025px)" srcset="/optimized-images/creativity-protection-3rings-lg.webp" type="image/webp">
+                        <img src="/optimized-images/creativity-protection-3rings-lg.webp" alt="Creativity Protection Rings" loading="lazy">
+                    </picture>
+                </div>
+                <div class="framework-text">
+                    <h2>Protecting Your <span class="highlight">Creativity</span></h2>
+                    <p>Your creativity is your most valuable asset. The source of innovation, impact, and fulfillment.</p>
+                    <p>Everything in a wealth strategy exists to protect this core asset—from legal structures to tax planning to passive income streams.</p>
+                    <p>When you know your financial foundation is solid, your nervous system can relax. And when your nervous system is calm, your creativity flourishes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience the Work Section -->
+    <section class="alt-bg">
+        <div class="container">
+            <h2>Experience the <span class="highlight">Work</span></h2>
+            <p class="text-center opacity-75">Hear from entrepreneurs who've transformed their relationship with wealth</p>
+            
+            <div style="margin: 3rem 0; text-align: center;">
+                <div style="position: relative; width: 100%; padding-bottom: 56.25%; background: #000; border-radius: 0.75rem; overflow: hidden;">
+                    <iframe 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                        src="about:blank" 
+                        data-src="https://www.youtube.com/embed/4kxT2vnq1r0?rel=0" 
+                        title="Client Testimonial" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin-top: 3rem; margin-bottom: 2rem;">Conversations That Change How You See Wealth, Life, and Safety</h3>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <span style="display: inline-block; background: var(--primary); color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem;">Featured</span>
+                    <h3>Building Wealth with Nervous System Awareness</h3>
+                    <p>Deep conversation on building wealth with nervous system awareness</p>
+                    <div style="position: relative; width: 100%; padding-bottom: 56.25%; background: #000; border-radius: 0.5rem; overflow: hidden; margin-top: 1rem;">
+                        <iframe 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                            src="about:blank" 
+                            data-src="https://www.youtube.com/embed/aEPWucMbclY?rel=0&start=12" 
+                            title="Building Wealth with Nervous System Awareness" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=aEPWucMbclY" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="display: inline-block; margin-top: 1rem; width: auto;">Watch on YouTube</a>
+                </div>
+                
+                <div class="card">
+                    <h3>From Survival to Peace</h3>
+                    <p>Understanding the path from survival to peace through financial clarity</p>
+                    <div style="position: relative; width: 100%; padding-bottom: 56.25%; background: #000; border-radius: 0.5rem; overflow: hidden; margin-top: 1rem;">
+                        <iframe 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                            src="about:blank" 
+                            data-src="https://www.youtube.com/embed/QYpDMY7KsjA?rel=0&start=1769" 
+                            title="From Survival to Peace" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=QYpDMY7KsjA" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="display: inline-block; margin-top: 1rem; width: auto;">Watch on YouTube</a>
+                </div>
+                
+                <div class="card">
+                    <h3>Money, Creativity, and Inner Peace</h3>
+                    <p>Exploring the relationship between money, creativity, and inner peace</p>
+                    <div style="position: relative; width: 100%; padding-bottom: 56.25%; background: #000; border-radius: 0.5rem; overflow: hidden; margin-top: 1rem;">
+                        <iframe 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                            src="about:blank" 
+                            data-src="https://www.youtube.com/embed/lkvq9Agwrgc?rel=0" 
+                            title="Money, Creativity, and Inner Peace" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=lkvq9Agwrgc" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="display: inline-block; margin-top: 1rem; width: auto;">Watch on YouTube</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta">
+        <div class="container-sm">
+            <div class="cta-section">
+                <h2>Begin Your Journey to Happy, Present & Peaceful</h2>
+                <p>Join thousands of founders receiving weekly insights on wealth strategy, tax architecture, and the psychology of success.</p>
+                <a href="https://journey-to-impact.beehiiv.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Join the Email List</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div>
+                <h4>Sam Prentice</h4>
+                <p>Wealth strategist helping entrepreneurs build lives that feel safe, abundant, and creatively alive.</p>
+            </div>
+            <div>
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="https://www.instagram.com/samwealthceo/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                    <li><a href="https://journey-to-impact.beehiiv.com/" target="_blank" rel="noopener noreferrer">Newsletter</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#framework">Framework</a></li>
+                    <li><a href="#wealth">Wealth Strategy</a></li>
+                    <li><a href="#cta">Get Started</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Sam Prentice. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
