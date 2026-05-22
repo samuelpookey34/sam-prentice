@@ -1,0 +1,5 @@
+# Netlify redirect rules for single-page app
+# This ensures all routes serve index.html
+
+# Redirect all non-file requests to index.html
+/*  /index.html  200
