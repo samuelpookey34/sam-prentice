@@ -138,3 +138,7 @@ For performance optimization:
 ## License
 
 © 2026 Sam Prentice. All rights reserved.
+
+## Launch Companion
+
+Reviewer / social-proof tracker for the book launch lives at `/launch/` — see [launch/README.md](launch/README.md).

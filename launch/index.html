@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Launch Companion · Purpose, Profit & Pleasure</title>
+<link rel="icon" href="/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#ca8a04;--primary-dark:#a16207;--secondary:#4a7c7e;--secondary-light:#6b9fa3;--accent:#d97706;
+  --bg:#f8f7f5;--white:#fff;--text:#1a1a1a;--muted:#6b7280;--border:#e5e7eb;--danger:#b91c1c;--ok:#15803d;
+  --radius:10px;--shadow:0 1px 3px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.04);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+h1,h2,h3{font-family:'Crimson Pro',Georgia,serif;margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--secondary)}
+header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.topbar{display:flex;align-items:center;gap:16px;height:60px}
+.topbar h1{font-size:22px;color:var(--secondary)}
+.topbar h1 span{color:var(--primary);font-weight:600}
+.topbar .grow{flex:1}
+nav.tabs{display:flex;gap:4px;border-top:1px solid var(--border);overflow-x:auto}
+nav.tabs button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px;cursor:pointer;color:var(--muted);font-weight:500;white-space:nowrap}
+nav.tabs button.active{color:var(--secondary);border-bottom-color:var(--primary)}
+main{padding:24px 0 80px}
+.view{display:none}.view.active{display:block}
+.btn{border:1px solid var(--border);background:var(--white);padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--secondary-light)}
+.btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn.primary:hover{background:var(--primary-dark)}
+.btn.teal{background:var(--secondary);border-color:var(--secondary);color:#fff}
+.btn.sm{padding:5px 10px;font-size:13px}
+.btn.danger{color:var(--danger)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
+.stat{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}
+.stat .n{font-family:'Crimson Pro',serif;font-size:32px;font-weight:700;color:var(--secondary);line-height:1}
+.stat .l{color:var(--muted);font-size:12px;margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+.stat.gold .n{color:var(--primary)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.toolbar input[type=search],.toolbar select{padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--white)}
+.toolbar input[type=search]{min-width:220px}
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;background:#fafaf9;cursor:pointer;user-select:none;white-space:nowrap}
+tr:hover td{background:#fcfbf9}
+td .name{font-weight:600;cursor:pointer;color:var(--secondary)}
+td .sub{color:var(--muted);font-size:12px}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:500;background:#eef2f2;color:var(--secondary);white-space:nowrap}
+.pill.s0{background:#f3f4f6;color:#6b7280}.pill.s1{background:#fef3c7;color:#92400e}.pill.s2{background:#e0f2fe;color:#075985}
+.pill.s3{background:#ede9fe;color:#5b21b6}.pill.s4{background:#dcfce7;color:#166534}.pill.s5{background:#fef9c3;color:#854d0e}
+.pill.s6{background:#d1fae5;color:#065f46}.pill.s7{background:#ca8a04;color:#fff}.pill.s8{background:#fee2e2;color:#991b1b}
+.pill.perm{background:#fdf6e3;color:var(--primary-dark)}
+.pill.warn{background:#fee2e2;color:#991b1b}
+.pipeline{display:grid;grid-template-columns:repeat(8,minmax(150px,1fr));gap:10px;overflow-x:auto;padding-bottom:8px}
+.col{background:#f1f0ed;border-radius:var(--radius);padding:10px;min-height:200px}
+.col h3{font-size:15px;margin-bottom:8px;display:flex;justify-content:space-between;color:var(--secondary)}
+.col h3 span{background:var(--white);border-radius:999px;padding:0 8px;font-family:Inter;font-size:12px;color:var(--muted)}
+.kcard{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:8px;cursor:pointer;font-size:13px}
+.kcard:hover{border-color:var(--primary)}
+.kcard .k-sub{color:var(--muted);font-size:11px}
+.kcard .k-flag{color:var(--danger);font-size:11px}
+.overlay{position:fixed;inset:0;background:rgba(26,26,26,.45);display:none;z-index:50;align-items:flex-start;justify-content:center;overflow:auto;padding:30px 12px}
+.overlay.open{display:flex}
+.modal{background:var(--white);border-radius:14px;width:100%;max-width:760px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal header{position:static;border-radius:14px 14px 0 0;padding:16px 22px;display:flex;align-items:center;gap:12px}
+.modal header h2{font-size:22px;flex:1}
+.modal .body{padding:18px 22px}
+.modal footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid .full{grid-column:1/-1}
+label.f{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px}
+.f-in{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:#fff}
+textarea.f-in{min-height:70px;resize:vertical}
+fieldset{border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin:0}
+legend{font-size:12px;font-weight:600;color:var(--muted);padding:0 4px}
+.chk{display:flex;gap:8px;align-items:center;margin:4px 0;font-size:13px}
+.hint{color:var(--muted);font-size:12px}
+.empty{padding:50px 20px;text-align:center;color:var(--muted)}
+.tpl{display:grid;grid-template-columns:260px 1fr;gap:16px}
+.tpl-list button{display:block;width:100%;text-align:left;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.tpl-list button.active{border-color:var(--primary);background:#fffbeb}
+.tpl-list button small{display:block;color:var(--muted)}
+pre.tplbox{white-space:pre-wrap;background:#fafaf9;border:1px solid var(--border);border-radius:8px;padding:14px;font-family:Inter;font-size:13px;min-height:200px}
+.quote{border-left:3px solid var(--primary);padding:10px 14px;margin:0 0 12px;background:#fffdf7;border-radius:0 8px 8px 0}
+.quote p{margin:0 0 6px;font-family:'Crimson Pro',serif;font-size:17px}
+.quote .who{font-size:12px;color:var(--muted)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.checklist li{margin:6px 0}
+.checklist input{margin-right:8px}
+.section{margin-bottom:26px}
+.section h2{font-size:22px;color:var(--secondary);margin-bottom:10px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:10px 16px;border-radius:8px;opacity:0;transition:.2s;z-index:99;pointer-events:none}
+.toast.show{opacity:1}
+.tag{font-size:11px;background:#eef2f2;color:var(--secondary);border-radius:4px;padding:1px 6px;margin-right:4px}
+.due{color:var(--danger);font-weight:600;font-size:12px}
+@media(max-width:800px){.grid,.tpl,.two{grid-template-columns:1fr}.topbar h1{font-size:18px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <h1>Launch Companion <span>· Purpose, Profit &amp; Pleasure</span></h1>
+      <div class="grow"></div>
+      <button class="btn primary" id="btnAdd">+ Add reviewer</button>
+      <button class="btn" id="btnExportMenu" title="Export / import">⇅ Data</button>
+    </div>
+    <nav class="tabs">
+      <button data-view="dash" class="active">Dashboard</button>
+      <button data-view="list">Reviewer list</button>
+      <button data-view="pipe">Pipeline</button>
+      <button data-view="tpl">Email templates</button>
+      <button data-view="proof">Social proof</button>
+      <button data-view="plan">Launch plan</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- DASHBOARD -->
+<section class="view active" id="view-dash">
+  <div class="stats" id="stats"></div>
+  <div class="two">
+    <div class="card" style="padding:16px">
+      <h2 style="font-size:20px;color:var(--secondary);margin-bottom:8px">Needs action</h2>
+      <div id="actions"></div>
+    </div>
+    <div class="card" style="padding:16px">
+      <h2 style="font-size:20px;color:var(--secondary);margin-bottom:8px">Launch readiness</h2>
+      <div id="readiness"></div>
+    </div>
+  </div>
+</section>
+
+<!-- LIST -->
+<section class="view" id="view-list">
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="Search name, email, tags…">
+    <select id="fStage"><option value="">All stages</option></select>
+    <select id="fPerm">
+      <option value="">Any permission</option>
+      <option value="granted">Permission granted</option>
+      <option value="asked">Permission asked</option>
+      <option value="none">Not asked yet</option>
+      <option value="declined">Declined</option>
+    </select>
+    <select id="fTier"><option value="">All tiers</option><option value="A">Tier A · must-have</option><option value="B">Tier B · strong</option><option value="C">Tier C · nice to have</option></select>
+    <span class="hint" id="count"></span>
+  </div>
+  <div class="card tablewrap">
+    <table id="tbl">
+      <thead><tr>
+        <th data-k="name">Name</th><th data-k="tier">Tier</th><th data-k="stage">Stage</th>
+        <th data-k="sentAt">Sent</th><th data-k="lastContact">Last contact</th>
+        <th>Review</th><th>Permission</th><th>Amazon</th><th></th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="empty" id="emptyList" hidden>No reviewers yet. Add the people you respect and want early opinions from.</div>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section class="view" id="view-pipe">
+  <p class="hint" style="margin:0 0 12px">Click a card to open it. Use the stage dropdown inside to move people along.</p>
+  <div class="pipeline" id="pipeline"></div>
+</section>
+
+<!-- TEMPLATES -->
+<section class="view" id="view-tpl">
+  <p class="hint" style="margin:0 0 12px">Pick a reviewer in the list, then open a template. Placeholders fill in automatically. Edit the wording to your voice, then copy or open in your mail app.</p>
+  <div class="tpl">
+    <div class="tpl-list" id="tplList"></div>
+    <div>
+      <div class="toolbar">
+        <select id="tplWho" class="f-in" style="max-width:280px"></select>
+        <button class="btn sm" id="tplCopy">Copy</button>
+        <button class="btn sm teal" id="tplMail">Open in mail app</button>
+        <button class="btn sm" id="tplMarkSent">Log as sent</button>
+      </div>
+      <label class="f">Subject</label>
+      <input class="f-in" id="tplSubject" style="margin-bottom:8px">
+      <label class="f">Body</label>
+      <textarea class="f-in tplbox" id="tplBody" style="min-height:320px;font-family:Inter"></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="view" id="view-proof">
+  <div class="toolbar">
+    <select id="proofFilter">
+      <option value="any">All usable quotes (any permission)</option>
+      <option value="public">Cleared for public / social</option>
+      <option value="book">Cleared for inside the book</option>
+    </select>
+    <button class="btn sm" id="proofCopyMd">Copy as Markdown</button>
+    <button class="btn sm" id="proofCopyJson">Copy as JSON</button>
+    <span class="hint">This is the bank the launch agent pulls from.</span>
+  </div>
+  <div id="proofList"></div>
+</section>
+
+<!-- PLAN -->
+<section class="view" id="view-plan">
+  <div class="section card" style="padding:18px">
+    <h2>Launch settings</h2>
+    <div class="grid">
+      <div><label class="f">Book title</label><input class="f-in" id="sTitle"></div>
+      <div><label class="f">Target Amazon launch date</label><input class="f-in" type="date" id="sDate"></div>
+      <div><label class="f">Amazon listing URL (once live)</label><input class="f-in" id="sAmazon" placeholder="https://amazon.com/dp/…"></div>
+      <div><label class="f">PDF / soft-copy link</label><input class="f-in" id="sPdf" placeholder="Drive / Dropbox link"></div>
+      <div><label class="f">Your name (signature)</label><input class="f-in" id="sName"></div>
+      <div><label class="f">Reply-to email</label><input class="f-in" id="sEmail"></div>
+      <div class="full"><label class="f">One-line pitch (used in request emails)</label><input class="f-in" id="sPitch" placeholder="A practical framework for building wealth without sacrificing presence, peace or joy."></div>
+    </div>
+    <p class="hint" id="countdown" style="margin:10px 0 0"></p>
+  </div>
+
+  <div class="section card" style="padding:18px">
+    <h2>Phase checklist</h2>
+    <p class="hint">Standard indie-launch cadence, compressed to what matters for a reviewer-led launch. Ticks are saved.</p>
+    <div id="checklist"></div>
+  </div>
+
+  <div class="section card" style="padding:18px">
+    <h2>Hand-off to the launch agent</h2>
+    <p>When the social-proof bank is ready, export the launch pack and hand it to the <code>book-launch</code> skill in this repo (see <code>.claude/skills/book-launch/SKILL.md</code>). It reads the pack and drives the open-source <code>launch</code>, <code>social</code> and <code>emails</code> marketing skills to produce the full campaign.</p>
+    <button class="btn primary" id="btnPack">⬇ Export launch pack (JSON)</button>
+    <button class="btn" id="btnPackMd">⬇ Export launch pack (Markdown brief)</button>
+  </div>
+</section>
+</main>
+
+<!-- REVIEWER MODAL -->
+<div class="overlay" id="modal">
+  <div class="modal">
+    <header><h2 id="mTitle">Add reviewer</h2><button class="btn sm" id="mClose">✕</button></header>
+    <div class="body">
+      <div class="grid">
+        <div><label class="f">Full name *</label><input class="f-in" id="mName"></div>
+        <div><label class="f">Email</label><input class="f-in" id="mEmail" type="email"></div>
+        <div><label class="f">Relationship / why you respect them</label><input class="f-in" id="mWhy" placeholder="Mentor, client, peer author, industry voice…"></div>
+        <div><label class="f">Tier</label><select class="f-in" id="mTier"><option value="A">A · must-have voice</option><option value="B" selected>B · strong</option><option value="C">C · nice to have</option></select></div>
+        <div><label class="f">Stage</label><select class="f-in" id="mStage"></select></div>
+        <div><label class="f">Preferred channel</label><select class="f-in" id="mChannel"><option>Email</option><option>Text / WhatsApp</option><option>LinkedIn</option><option>In person</option><option>Other</option></select></div>
+        <div><label class="f">Social handle / site (for attribution)</label><input class="f-in" id="mHandle" placeholder="@handle or URL"></div>
+        <div><label class="f">Title / company (for attribution)</label><input class="f-in" id="mRole" placeholder="Founder, Acme Co"></div>
+        <div><label class="f">Request sent</label><input class="f-in" type="date" id="mRequestedAt"></div>
+        <div><label class="f">PDF sent</label><input class="f-in" type="date" id="mSentAt"></div>
+        <div><label class="f">Last contact</label><input class="f-in" type="date" id="mLastContact"></div>
+        <div><label class="f">Next follow-up</label><input class="f-in" type="date" id="mFollowUp"></div>
+        <div class="full"><label class="f">Their review / opinion (paste verbatim)</label><textarea class="f-in" id="mReview" placeholder="Paste what they said. Keep their words."></textarea></div>
+        <div class="full"><label class="f">Pull-quote (short version for social, optional)</label><input class="f-in" id="mQuote" placeholder="One or two sentences you'd actually post"></div>
+        <div class="full">
+          <fieldset><legend>Permission to use their words</legend>
+            <label class="chk"><input type="radio" name="perm" value="none"> Not asked yet</label>
+            <label class="chk"><input type="radio" name="perm" value="asked"> Asked, waiting</label>
+            <label class="chk"><input type="radio" name="perm" value="granted"> Granted</label>
+            <label class="chk"><input type="radio" name="perm" value="declined"> Declined</label>
+            <div style="margin-top:6px;padding-left:2px">
+              <label class="chk"><input type="checkbox" id="mPermPublic"> OK for social / website / Amazon listing</label>
+              <label class="chk"><input type="checkbox" id="mPermBook"> OK to print inside the book</label>
+              <label class="chk"><input type="checkbox" id="mPermNamed"> OK to use their full name and title</label>
+            </div>
+          </fieldset>
+        </div>
+        <div class="full">
+          <fieldset><legend>Launch day</legend>
+            <label class="chk"><input type="checkbox" id="mAmazonAgreed"> Agreed to post an Amazon review on launch</label>
+            <label class="chk"><input type="checkbox" id="mAmazonPosted"> Amazon review is live</label>
+            <label class="chk"><input type="checkbox" id="mShare"> Will share on their own social</label>
+          </fieldset>
+        </div>
+        <div><label class="f">Tags (comma separated)</label><input class="f-in" id="mTags" placeholder="finance, podcast, mentor"></div>
+        <div><label class="f">Notes</label><input class="f-in" id="mNotes"></div>
+      </div>
+      <div id="mLog" style="margin-top:12px"></div>
+    </div>
+    <footer>
+      <button class="btn primary" id="mSave">Save</button>
+      <button class="btn" id="mSaveClose">Save &amp; close</button>
+      <div style="flex:1"></div>
+      <button class="btn danger" id="mDelete" hidden>Delete</button>
+    </footer>
+  </div>
+</div>
+
+<!-- DATA MODAL -->
+<div class="overlay" id="dataModal">
+  <div class="modal" style="max-width:520px">
+    <header><h2>Your data</h2><button class="btn sm" id="dClose">✕</button></header>
+    <div class="body">
+      <p class="hint">Everything is stored in this browser only (localStorage). Export regularly and commit the JSON to the repo so nothing is lost and the launch agent can read it.</p>
+      <div style="display:grid;gap:8px">
+        <button class="btn" id="dExportJson">⬇ Export everything (JSON backup)</button>
+        <button class="btn" id="dExportCsv">⬇ Export reviewers (CSV)</button>
+        <button class="btn" id="dImport">⬆ Import JSON (merges by email/name)</button>
+        <input type="file" id="dFile" accept="application/json" hidden>
+        <button class="btn" id="dSample">Load sample data (for a look around)</button>
+        <button class="btn danger" id="dWipe">Wipe all data</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- constants ---------- */
+const STAGES=[
+  {id:'identified',label:'Identified',tip:'On the list, not contacted'},
+  {id:'requested',label:'Asked',tip:'Asked if they will read it'},
+  {id:'sent',label:'PDF sent',tip:'Soft copy delivered'},
+  {id:'reading',label:'Reading',tip:'Confirmed they have it / reading'},
+  {id:'reviewed',label:'Review in',tip:'They gave their opinion'},
+  {id:'perm_asked',label:'Permission asked',tip:'Asked to use it publicly / in book'},
+  {id:'cleared',label:'Cleared',tip:'Permission granted, ready for launch'},
+  {id:'posted',label:'Posted on Amazon',tip:'Live review on the listing'},
+  {id:'declined',label:'Declined / no reply',tip:'Parked'}
+];
+const STAGE_IDX=Object.fromEntries(STAGES.map((s,i)=>[s.id,i]));
+const KEY='launchCompanion.v1';
+const CHECKLIST=[
+ {ph:'Phase 1 · Build the list (now)',items:['List 30-50 people you respect who could plausibly review','Rank them A/B/C — A-tier are the ten voices you most want on the cover and in the campaign','Finalise the PDF soft copy and put it on a stable share link','Write your personal request note in your own voice (edit the template)']},
+ {ph:'Phase 2 · Send and follow up (6-8 weeks before launch)',items:['Send requests in batches of 5-10 per day so replies are manageable','Log every send in the tracker the same day','Follow up once at 7 days, once at 14 days, then park','Ask every reader to tell you what stuck, not to write a review yet']},
+ {ph:'Phase 3 · Collect and clear (3-5 weeks before)',items:['Paste every opinion verbatim into the tracker','Cut a 1-2 sentence pull-quote from each and confirm they are happy with the edit','Ask for permission: public use, in-book use, named attribution','Ask them to post the same words on Amazon on launch day and to share once','Target: 10-15 cleared quotes, at least 5 from A-tier']},
+ {ph:'Phase 4 · Pre-load (2 weeks before)',items:['Export the launch pack and run the book-launch skill to generate the campaign','Approve the social calendar (5-7 countdown posts, 7 launch-week posts, 4 weeks of quote posts)','Schedule launch-day reminder email to all cleared reviewers with the Amazon link placeholder','Set launch-week ebook price (0.99 for 3-5 days is the usual play)','Pick 7-10 Amazon categories and keywords']},
+ {ph:'Phase 5 · Launch week',items:['Publish on KDP, grab the live URL, paste it into Launch settings','Send the launch-day email (link now filled) to every reviewer who agreed','Post launch announcement, then one quote post per day','Thank each reviewer personally when their Amazon review goes live and tick it off','Goal: 10+ Amazon reviews in week one']},
+ {ph:'Phase 6 · Sustain (weeks 2-6)',items:['Keep the quote drip going: one social-proof post every 2-3 days','Reach back to Reading/Review-in people who never cleared — a live listing changes minds','Turn the best 3 quotes into website testimonials','Send a wrap-up thank-you with early results to the whole reviewer list']}
+];
+
+/* ---------- state ---------- */
+let db=load();
+function load(){try{const d=JSON.parse(localStorage.getItem(KEY));if(d&&d.reviewers)return d;}catch(e){}
+  return {reviewers:[],settings:{title:'Purpose, Profit & Pleasure',name:'Sam Prentice',email:'',date:'',amazon:'',pdf:'',pitch:''},checks:{}};}
+function save(){db.updatedAt=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(db));render();}
+const uid=()=>Math.random().toString(36).slice(2,10)+Date.now().toString(36);
+const today=()=>new Date().toISOString().slice(0,10);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=d=>d?new Date(d+'T00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'}):'—';
+const daysSince=d=>d?Math.floor((Date.now()-new Date(d+'T00:00'))/864e5):null;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
+
+/* ---------- reviewer model ---------- */
+function blank(){return {id:uid(),name:'',email:'',why:'',tier:'B',stage:'identified',channel:'Email',handle:'',role:'',
+  requestedAt:'',sentAt:'',lastContact:'',followUp:'',review:'',quote:'',perm:'none',permPublic:false,permBook:false,permNamed:false,
+  amazonAgreed:false,amazonPosted:false,share:false,tags:[],notes:'',log:[],createdAt:today()};}
+const usable=r=>(r.quote||r.review)&&r.perm==='granted';
+const attribution=r=>r.permNamed?[r.name,r.role].filter(Boolean).join(', '):(r.name.split(' ')[0]+', '+(r.role||'early reader'));
+
+/* ---------- views ---------- */
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.toggle('active',x===b));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+b.dataset.view));
+  render();
+});
+
+function render(){renderStats();renderList();renderPipeline();renderProof();renderPlan();renderTplWho();}
+
+function renderStats(){
+  const R=db.reviewers,c=id=>R.filter(r=>r.stage===id).length;
+  const cleared=R.filter(usable).length, posted=R.filter(r=>r.amazonPosted).length;
+  const sent=R.filter(r=>STAGE_IDX[r.stage]>=STAGE_IDX.sent&&r.stage!=='declined').length;
+  const reviewed=R.filter(r=>r.review||r.quote).length;
+  document.getElementById('stats').innerHTML=[
+    [R.length,'On the list'],[sent,'PDFs sent'],[reviewed,'Opinions in'],[cleared,'Cleared quotes','gold'],
+    [R.filter(r=>r.amazonAgreed).length,'Will review on Amazon'],[posted,'Amazon reviews live','gold']
+  ].map(([n,l,g])=>`<div class="stat ${g||''}"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('');
+
+  // actions
+  const acts=[];
+  R.forEach(r=>{
+    const ds=daysSince(r.lastContact||r.sentAt||r.requestedAt);
+    if(r.followUp&&r.followUp<=today()&&!['cleared','posted','declined'].includes(r.stage))acts.push([r,'Follow-up due '+fmt(r.followUp)]);
+    else if(['requested','sent'].includes(r.stage)&&ds!==null&&ds>=7)acts.push([r,`No reply for ${ds} days — nudge`]);
+    else if(r.stage==='reviewed'&&r.perm==='none')acts.push([r,'Opinion in — ask permission to use it']);
+    else if(r.stage==='perm_asked'&&ds!==null&&ds>=5)acts.push([r,`Permission asked ${ds} days ago — nudge`]);
+    else if(r.stage==='cleared'&&!r.amazonAgreed)acts.push([r,'Cleared — ask them to post on Amazon at launch']);
+    else if(r.stage==='identified'&&r.tier==='A')acts.push([r,'A-tier, not contacted yet']);
+    else if(db.settings.amazon&&r.amazonAgreed&&!r.amazonPosted)acts.push([r,'Agreed to review — send launch-day link']);
+  });
+  document.getElementById('actions').innerHTML=acts.length?acts.slice(0,25).map(([r,m])=>`<div style="display:flex;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)"><span class="name" style="font-weight:600;color:var(--secondary);cursor:pointer" data-open="${r.id}">${esc(r.name)}</span><span class="hint" style="flex:1">${m}</span><span class="pill s${STAGE_IDX[r.stage]}">${STAGES[STAGE_IDX[r.stage]].label}</span></div>`).join(''):'<p class="hint">Nothing pending. Add people or send the next batch.</p>';
+
+  const a=R.filter(r=>r.tier==='A'),aCleared=a.filter(usable).length;
+  const bar=(n,t,l)=>`<div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>${l}</span><b>${n} / ${t}</b></div><div style="height:8px;background:#eee;border-radius:4px;overflow:hidden"><div style="height:100%;width:${Math.min(100,t?n/t*100:0)}%;background:var(--primary)"></div></div></div>`;
+  document.getElementById('readiness').innerHTML=bar(cleared,12,'Cleared quotes (target 12)')+bar(aCleared,5,'A-tier cleared (target 5)')+bar(R.filter(r=>r.amazonAgreed).length,15,'Committed Amazon reviewers (target 15)')+bar(R.filter(r=>r.permBook&&r.perm==='granted').length,6,'Quotes cleared for the book (target 6)')+
+    `<p class="hint" style="margin-top:10px">${db.settings.date?(function(){const d=Math.ceil((new Date(db.settings.date)-Date.now())/864e5);return d>=0?`${d} days to launch (${fmt(db.settings.date)})`:`Launched ${-d} days ago`;})():'Set a target launch date in Launch plan.'}</p>`;
+}
+
+let sortK='name',sortDir=1;
+document.querySelectorAll('#tbl th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k;sortDir=(sortK===k)?-sortDir:1;sortK=k;renderList();});
+['q','fStage','fPerm','fTier'].forEach(id=>document.getElementById(id).oninput=renderList);
+const fs=document.getElementById('fStage');STAGES.forEach(s=>fs.add(new Option(s.label,s.id)));
+
+function filtered(){
+  const q=document.getElementById('q').value.toLowerCase(),st=fs.value,pm=document.getElementById('fPerm').value,tr=document.getElementById('fTier').value;
+  return db.reviewers.filter(r=>(!q||[r.name,r.email,r.why,r.role,(r.tags||[]).join(' '),r.notes].join(' ').toLowerCase().includes(q))&&(!st||r.stage===st)&&(!pm||r.perm===pm)&&(!tr||r.tier===tr))
+    .sort((a,b)=>{let x=a[sortK]??'',y=b[sortK]??'';if(sortK==='stage'){x=STAGE_IDX[x];y=STAGE_IDX[y];}return (x>y?1:x<y?-1:0)*sortDir;});
+}
+function renderList(){
+  const rows=filtered();document.getElementById('count').textContent=`${rows.length} of ${db.reviewers.length}`;
+  document.getElementById('emptyList').hidden=db.reviewers.length>0;
+  document.querySelector('#tbl tbody').innerHTML=rows.map(r=>{
+    const si=STAGE_IDX[r.stage];
+    const perm=r.perm==='granted'?`<span class="pill perm">✓ ${[r.permPublic&&'public',r.permBook&&'book',r.permNamed&&'named'].filter(Boolean).join(' · ')||'granted'}</span>`:r.perm==='asked'?'<span class="pill s1">asked</span>':r.perm==='declined'?'<span class="pill warn">declined</span>':'<span class="hint">—</span>';
+    const due=r.followUp&&r.followUp<=today()&&!['cleared','posted','declined'].includes(r.stage)?`<div class="due">Follow up</div>`:'';
+    return `<tr><td><span class="name" data-open="${r.id}">${esc(r.name)}</span><div class="sub">${esc(r.role||r.why||r.email)}</div>${(r.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</td>
+    <td><b>${r.tier}</b></td><td><span class="pill s${si}">${STAGES[si].label}</span></td><td>${fmt(r.sentAt)}</td><td>${fmt(r.lastContact)}${due}</td>
+    <td>${r.review||r.quote?'✓ '+(r.quote?'quote':'text'):'—'}</td><td>${perm}</td>
+    <td>${r.amazonPosted?'<span class="pill s7">live</span>':r.amazonAgreed?'<span class="pill s4">agreed</span>':'—'}</td>
+    <td><button class="btn sm" data-open="${r.id}">Open</button></td></tr>`;}).join('');
+}
+function renderPipeline(){
+  document.getElementById('pipeline').innerHTML=STAGES.filter(s=>s.id!=='declined').map(s=>{
+    const rs=db.reviewers.filter(r=>r.stage===s.id);
+    return `<div class="col"><h3>${s.label}<span>${rs.length}</span></h3>${rs.map(r=>`<div class="kcard" data-open="${r.id}"><b>${esc(r.name)}</b> <span class="hint">${r.tier}</span><div class="k-sub">${esc(r.role||r.why||'')}</div>${r.followUp&&r.followUp<=today()?'<div class="k-flag">follow-up due</div>':''}</div>`).join('')}</div>`;
+  }).join('')+`<div class="col" style="background:#f5eded"><h3>Declined<span>${db.reviewers.filter(r=>r.stage==='declined').length}</span></h3>${db.reviewers.filter(r=>r.stage==='declined').map(r=>`<div class="kcard" data-open="${r.id}">${esc(r.name)}</div>`).join('')}</div>`;
+}
+document.body.addEventListener('click',e=>{const el=e.target.closest('[data-open]');if(el)openModal(el.dataset.open);});
+
+/* ---------- modal ---------- */
+const M=id=>document.getElementById(id);let cur=null;
+const ms=M('mStage');STAGES.forEach(s=>ms.add(new Option(s.label+' — '+s.tip,s.id)));
+function openModal(id){
+  cur=id?db.reviewers.find(r=>r.id===id):blank();if(!cur)return;
+  M('mTitle').textContent=id?cur.name:'Add reviewer';M('mDelete').hidden=!id;
+  ['Name','Email','Why','Tier','Stage','Channel','Handle','Role','RequestedAt','SentAt','LastContact','FollowUp','Review','Quote','Notes'].forEach(k=>M('m'+k).value=cur[k[0].toLowerCase()+k.slice(1)]??'');
+  M('mTags').value=(cur.tags||[]).join(', ');
+  document.querySelector(`input[name=perm][value=${cur.perm||'none'}]`).checked=true;
+  ['PermPublic','PermBook','PermNamed','AmazonAgreed','AmazonPosted','Share'].forEach(k=>M('m'+k).checked=!!cur[k[0].toLowerCase()+k.slice(1)]);
+  M('mLog').innerHTML=(cur.log||[]).length?'<label class="f">Activity</label>'+cur.log.slice().reverse().map(l=>`<div class="hint">${l.at} · ${esc(l.msg)}</div>`).join(''):'';
+  M('modal').classList.add('open');M('mName').focus();
+}
+function readModal(){
+  ['Name','Email','Why','Tier','Stage','Channel','Handle','Role','RequestedAt','SentAt','LastContact','FollowUp','Review','Quote','Notes'].forEach(k=>cur[k[0].toLowerCase()+k.slice(1)]=M('m'+k).value.trim());
+  cur.tags=M('mTags').value.split(',').map(s=>s.trim()).filter(Boolean);
+  cur.perm=document.querySelector('input[name=perm]:checked').value;
+  ['PermPublic','PermBook','PermNamed','AmazonAgreed','AmazonPosted','Share'].forEach(k=>cur[k[0].toLowerCase()+k.slice(1)]=M('m'+k).checked);
+  // auto-advance stage from facts
+  const bump=s=>{if(STAGE_IDX[cur.stage]<STAGE_IDX[s]&&cur.stage!=='declined')cur.stage=s;};
+  if(cur.requestedAt)bump('requested');if(cur.sentAt)bump('sent');if(cur.review||cur.quote)bump('reviewed');
+  if(cur.perm==='asked')bump('perm_asked');if(cur.perm==='granted')bump('cleared');if(cur.amazonPosted)bump('posted');
+  if(cur.perm==='declined')cur.stage='declined';
+  if(!cur.name){toast('Name is required');return false;}
+  if(!db.reviewers.includes(cur))db.reviewers.push(cur);
+  save();return true;
+}
+M('mSave').onclick=()=>{if(readModal()){M('mTitle').textContent=cur.name;M('mDelete').hidden=false;toast('Saved');}};
+M('mSaveClose').onclick=()=>{if(readModal())M('modal').classList.remove('open');};
+M('mClose').onclick=()=>M('modal').classList.remove('open');
+M('mDelete').onclick=()=>{if(confirm('Delete '+cur.name+'?')){db.reviewers=db.reviewers.filter(r=>r!==cur);save();M('modal').classList.remove('open');}};
+M('btnAdd').onclick=()=>openModal(null);
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
+/* ---------- templates ---------- */
+const TEMPLATES=[
+ {id:'request',name:'1. Request to read',sub:'Would you read {title} before it goes public?',stage:'requested',
+  body:`Hi {first},
+
+I've written a book — {title}. {pitch}
+
+You're one of a small group of people whose opinion I genuinely respect, so before it goes live on Amazon I'd love to send you the soft copy (PDF) and hear what you honestly think.
+
+No obligation to write anything polished. A few lines on what landed, what didn't, and who you think it's for would be gold.
+
+If you're up for it, just reply "yes" and I'll send it straight over.
+
+Thanks either way,
+{me}`},
+ {id:'send',name:'2. Here is the PDF',sub:'{title} — your early copy',stage:'sent',
+  body:`Hi {first},
+
+Thank you — here's the PDF: {pdf}
+
+Two small asks when you've read it:
+1. Tell me what stuck with you, in your own words. Even two sentences.
+2. Tell me what you'd cut or push back on. That's the most useful thing you can give me.
+
+The Amazon launch is planned for {date}. No rush before then.
+
+{me}`},
+ {id:'nudge',name:'3. Gentle follow-up',sub:'Re: {title}',stage:null,
+  body:`Hi {first},
+
+Just checking the PDF landed and didn't get buried. No pressure at all — if life's full, I completely understand.
+
+If you have had a look, even a couple of lines on your first impression would help me enormously as I get ready for launch.
+
+{me}`},
+ {id:'permission',name:'4. Ask permission to use their words',sub:'Can I quote you?',stage:'perm_asked',
+  body:`Hi {first},
+
+Thank you for reading and for what you said — it meant a lot.
+
+I'd love to use your words. This is the version I'd share:
+
+"{quote}"
+— {attribution}
+
+Could you confirm which of these you're comfortable with?
+• Sharing it on social media, my website and the Amazon listing
+• Printing it inside the book (in the front matter / praise page)
+• Attributing it to you by full name and title (or I can use first name only)
+
+Feel free to tweak the wording — it should sound like you.
+
+{me}`},
+ {id:'amazon',name:'5. Ask for an Amazon review at launch',sub:'One small favour on launch day',stage:null,
+  body:`Hi {first},
+
+The book goes live on Amazon on {date}. Early reviews in the first week are what tell Amazon's algorithm the book is worth showing to people, so they matter more than anything else I can do.
+
+Would you be willing to post your thoughts as an Amazon review that week? It can be the exact words you already sent me. I'll send you the link the day it's live so it takes about two minutes.
+
+Thank you — genuinely.
+
+{me}`},
+ {id:'launchday',name:'6. Launch day — it is live',sub:'{title} is live — here is the link',stage:null,
+  body:`Hi {first},
+
+It's live: {amazon}
+
+If you're able to post your review today or tomorrow, that would make a real difference — the first week is everything. Your words as you sent them are perfect:
+
+"{quote}"
+
+And if you feel like sharing the link once, I'd be grateful, but no pressure at all.
+
+Thank you for being part of this from the start.
+
+{me}`},
+ {id:'thanks',name:'7. Thank you (review is live)',sub:'Saw your review — thank you',stage:null,
+  body:`Hi {first},
+
+Just saw your review go up. Thank you — truly. That's the kind of support that makes launching a book worth doing.
+
+I'll keep you posted on how it goes.
+
+{me}`}
+];
+let curTpl=TEMPLATES[0];
+function renderTplWho(){const w=M('tplWho'),v=w.value;w.innerHTML='<option value="">— pick a reviewer —</option>'+db.reviewers.map(r=>`<option value="${r.id}">${esc(r.name)}</option>`).join('');w.value=v;}
+M('tplList').innerHTML=TEMPLATES.map(t=>`<button data-t="${t.id}" class="${t===curTpl?'active':''}">${t.name}<small>${t.sub}</small></button>`).join('');
+M('tplList').onclick=e=>{const b=e.target.closest('button');if(!b)return;curTpl=TEMPLATES.find(t=>t.id===b.dataset.t);M('tplList').querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));fillTpl();};
+M('tplWho').onchange=fillTpl;
+function fill(s,r){const S=db.settings;return s.replace(/\{(\w+)\}/g,(_,k)=>({first:r?r.name.split(' ')[0]:'[name]',title:S.title||'[title]',pitch:S.pitch||'',pdf:S.pdf||'[PDF link]',date:S.date?new Date(S.date+'T00:00').toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'}):'[launch date]',amazon:S.amazon||'[Amazon link]',me:S.name||'',quote:r?(r.quote||r.review||'[their quote]'):'[quote]',attribution:r?attribution(r):'[name, title]'})[k]??'');}
+function fillTpl(){const r=db.reviewers.find(x=>x.id===M('tplWho').value);M('tplSubject').value=fill(curTpl.sub,r);M('tplBody').value=fill(curTpl.body,r);}
+M('tplCopy').onclick=()=>{navigator.clipboard.writeText('Subject: '+M('tplSubject').value+'\n\n'+M('tplBody').value);toast('Copied');};
+M('tplMail').onclick=()=>{const r=db.reviewers.find(x=>x.id===M('tplWho').value);location.href=`mailto:${encodeURIComponent(r?.email||'')}?subject=${encodeURIComponent(M('tplSubject').value)}&body=${encodeURIComponent(M('tplBody').value)}`;};
+M('tplMarkSent').onclick=()=>{const r=db.reviewers.find(x=>x.id===M('tplWho').value);if(!r){toast('Pick a reviewer first');return;}
+  const t=today();r.lastContact=t;(r.log=r.log||[]).push({at:t,msg:'Sent: '+curTpl.name});
+  if(curTpl.id==='request'){r.requestedAt=r.requestedAt||t;r.followUp=addDays(t,7);}
+  if(curTpl.id==='send'){r.sentAt=r.sentAt||t;r.followUp=addDays(t,10);}
+  if(curTpl.id==='nudge')r.followUp=addDays(t,7);
+  if(curTpl.id==='permission'){if(r.perm==='none')r.perm='asked';r.followUp=addDays(t,5);}
+  if(curTpl.stage&&STAGE_IDX[r.stage]<STAGE_IDX[curTpl.stage]&&r.stage!=='declined')r.stage=curTpl.stage;
+  save();toast('Logged for '+r.name);};
+const addDays=(d,n)=>{const x=new Date(d+'T00:00');x.setDate(x.getDate()+n);return x.toISOString().slice(0,10);};
+
+/* ---------- social proof ---------- */
+function proofRows(){const f=M('proofFilter').value;return db.reviewers.filter(usable).filter(r=>f==='public'?r.permPublic:f==='book'?r.permBook:true).sort((a,b)=>a.tier.localeCompare(b.tier));}
+function renderProof(){const rows=proofRows();M('proofList').innerHTML=rows.length?rows.map(r=>`<div class="quote"><p>“${esc(r.quote||r.review)}”</p><div class="who">— ${esc(attribution(r))} · Tier ${r.tier} · ${[r.permPublic&&'public',r.permBook&&'book',r.permNamed&&'named'].filter(Boolean).join(', ')} ${r.handle?'· '+esc(r.handle):''}</div></div>`).join(''):'<div class="empty">No cleared quotes yet. A quote appears here once a review is pasted in and permission is marked Granted.</div>';}
+M('proofFilter').onchange=renderProof;
+const proofMd=()=>proofRows().map(r=>`> "${r.quote||r.review}"\n> — ${attribution(r)}${r.handle?' ('+r.handle+')':''}\n`).join('\n');
+M('proofCopyMd').onclick=()=>{navigator.clipboard.writeText(proofMd());toast('Copied Markdown');};
+M('proofCopyJson').onclick=()=>{navigator.clipboard.writeText(JSON.stringify(launchPack().quotes,null,2));toast('Copied JSON');};
+
+/* ---------- plan ---------- */
+const SET=['Title','Date','Amazon','Pdf','Name','Email','Pitch'];
+SET.forEach(k=>M('s'+k).onchange=()=>{db.settings[k.toLowerCase()]=M('s'+k).value.trim();save();});
+function renderPlan(){
+  SET.forEach(k=>{if(document.activeElement!==M('s'+k))M('s'+k).value=db.settings[k.toLowerCase()]||'';});
+  M('countdown').textContent=db.settings.date?(()=>{const d=Math.ceil((new Date(db.settings.date)-Date.now())/864e5);return d>=0?`${d} days to launch.`:'Launched.';})():'';
+  M('checklist').innerHTML=CHECKLIST.map((p,pi)=>`<h3 style="font-size:16px;margin:12px 0 4px;color:var(--primary-dark)">${p.ph}</h3><ul class="checklist" style="list-style:none;padding:0;margin:0">${p.items.map((it,ii)=>{const k=pi+'.'+ii;return `<li><label><input type="checkbox" data-chk="${k}" ${db.checks[k]?'checked':''}>${db.checks[k]?'<s style="color:var(--muted)">'+it+'</s>':it}</label></li>`;}).join('')}</ul>`).join('');
+}
+M('checklist').onchange=e=>{if(e.target.dataset.chk){db.checks[e.target.dataset.chk]=e.target.checked;save();}};
+
+/* ---------- export / import ---------- */
+function dl(name,text,type='application/json'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();}
+function launchPack(){
+  const R=db.reviewers;
+  return {generatedAt:new Date().toISOString(),book:db.settings,
+    summary:{total:R.length,sent:R.filter(r=>r.sentAt).length,reviewed:R.filter(r=>r.review||r.quote).length,cleared:R.filter(usable).length,amazonCommitted:R.filter(r=>r.amazonAgreed).length,amazonPosted:R.filter(r=>r.amazonPosted).length},
+    quotes:R.filter(usable).map(r=>({id:r.id,quote:r.quote||r.review,fullReview:r.review,attribution:attribution(r),name:r.name,role:r.role,handle:r.handle,tier:r.tier,permPublic:r.permPublic,permBook:r.permBook,permNamed:r.permNamed,willShare:r.share,tags:r.tags})),
+    launchDayReviewers:R.filter(r=>r.amazonAgreed&&!r.amazonPosted).map(r=>({name:r.name,email:r.email,channel:r.channel})),
+    amplifiers:R.filter(r=>r.share).map(r=>({name:r.name,handle:r.handle})),
+    stillOpen:R.filter(r=>['requested','sent','reading','reviewed','perm_asked'].includes(r.stage)).map(r=>({name:r.name,stage:r.stage,lastContact:r.lastContact}))};
+}
+function packMd(){const p=launchPack(),S=p.book;return `# Launch pack — ${S.title}\n\nGenerated ${p.generatedAt.slice(0,10)} · Launch date: ${S.date||'TBD'} · Amazon: ${S.amazon||'TBD'}\n\n**Pitch:** ${S.pitch||''}\n\n## Numbers\n- Reviewers on list: ${p.summary.total}\n- PDFs sent: ${p.summary.sent}\n- Opinions received: ${p.summary.reviewed}\n- Cleared quotes: ${p.summary.cleared}\n- Committed to Amazon review: ${p.summary.amazonCommitted}\n- Amazon reviews live: ${p.summary.amazonPosted}\n\n## Cleared quotes\n\n${proofMdAll()}\n## Launch-day reviewers to email\n${p.launchDayReviewers.map(r=>`- ${r.name} (${r.email||r.channel})`).join('\n')||'- none yet'}\n\n## Amplifiers (will share)\n${p.amplifiers.map(r=>`- ${r.name} ${r.handle||''}`).join('\n')||'- none yet'}\n`;}
+const proofMdAll=()=>db.reviewers.filter(usable).map(r=>`> "${r.quote||r.review}"\n> — ${attribution(r)} · tier ${r.tier} · ${[r.permPublic&&'public',r.permBook&&'book',r.permNamed&&'named'].filter(Boolean).join('/')}\n`).join('\n');
+M('btnPack').onclick=()=>dl('launch-pack.json',JSON.stringify(launchPack(),null,2));
+M('btnPackMd').onclick=()=>dl('launch-pack.md',packMd(),'text/markdown');
+M('btnExportMenu').onclick=()=>M('dataModal').classList.add('open');M('dClose').onclick=()=>M('dataModal').classList.remove('open');
+M('dExportJson').onclick=()=>dl('launch-data.json',JSON.stringify(db,null,2));
+M('dExportCsv').onclick=()=>{const cols=['name','email','role','why','tier','stage','channel','handle','requestedAt','sentAt','lastContact','followUp','perm','permPublic','permBook','permNamed','amazonAgreed','amazonPosted','share','quote','review','tags','notes'];
+  const q=v=>'"'+String(Array.isArray(v)?v.join('; '):v??'').replace(/"/g,'""')+'"';dl('reviewers.csv',[cols.join(',')].concat(db.reviewers.map(r=>cols.map(c=>q(r[c])).join(','))).join('\n'),'text/csv');};
+M('dImport').onclick=()=>M('dFile').click();
+M('dFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const d=JSON.parse(rd.result);const inc=d.reviewers||[];let n=0;
+  inc.forEach(x=>{const ex=db.reviewers.find(r=>(x.email&&r.email===x.email)||r.name.toLowerCase()===String(x.name).toLowerCase());if(ex)Object.assign(ex,x);else{db.reviewers.push({...blank(),...x});n++;}});
+  if(d.settings)db.settings={...db.settings,...d.settings};if(d.checks)db.checks={...db.checks,...d.checks};save();toast(`Imported ${inc.length} (${n} new)`);}catch(err){toast('Could not read that file');}};rd.readAsText(f);e.target.value='';};
+M('dWipe').onclick=()=>{if(confirm('Wipe every reviewer and setting from this browser? Export first if unsure.')){localStorage.removeItem(KEY);db=load();save();M('dataModal').classList.remove('open');}};
+M('dSample').onclick=()=>{if(db.reviewers.length&&!confirm('Add sample people to your existing list?'))return;
+  const t=today();const s=[
+   {name:'Jane Example',email:'jane@example.com',role:'Founder, Example Capital',why:'Mentor',tier:'A',stage:'cleared',requestedAt:addDays(t,-21),sentAt:addDays(t,-20),lastContact:addDays(t,-3),review:'I read it in one sitting. The Purpose, Profit, Pleasure framework is the first money book that treats peace of mind as a real asset class. I have already recommended it to three clients.',quote:'The first money book that treats peace of mind as a real asset class.',perm:'granted',permPublic:true,permBook:true,permNamed:true,amazonAgreed:true,tags:['finance','mentor']},
+   {name:'Tom Sample',email:'tom@example.com',role:'Host, The Sample Podcast',why:'Peer with audience',tier:'A',stage:'perm_asked',requestedAt:addDays(t,-18),sentAt:addDays(t,-17),lastContact:addDays(t,-6),review:'Practical, warm and completely unpretentious. Chapter 4 alone is worth the price.',perm:'asked',followUp:addDays(t,-1),tags:['podcast']},
+   {name:'Priya Placeholder',email:'priya@example.com',role:'Client',why:'Client who lived the framework',tier:'B',stage:'sent',requestedAt:addDays(t,-12),sentAt:addDays(t,-11),lastContact:addDays(t,-11),followUp:addDays(t,-1)},
+   {name:'Alex Demo',email:'',role:'Author',why:'Peer author',tier:'C',stage:'identified'}
+  ].map(x=>({...blank(),...x}));db.reviewers.push(...s);save();M('dataModal').classList.remove('open');toast('Sample data added');};
+
+render();fillTpl();
+</script>
+</body>
+</html>
