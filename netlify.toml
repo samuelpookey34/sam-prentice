@@ -52,3 +52,10 @@
 [context.branch-deploy]
   command = ""
   publish = "."
+
+# Client proposal pages - always fresh, never indexed
+[[headers]]
+  for = "/proposals/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Robots-Tag = "noindex, nofollow"

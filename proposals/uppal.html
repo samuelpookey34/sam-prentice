@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Tax strategy proposal prepared for Prateek Uppal by Samuel Prentice, My Wealth CEO.">
+<title>Proposal from My Wealth CEO</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --paper:      #F5F6F4;
+    --surface:    #FFFFFF;
+    --ink:        #151D22;
+    --ink-soft:   #4C5A5F;
+    --rule:       #D8DEDA;
+    --teal:       #0C6157;
+    --teal-soft:  #E3EEEA;
+    --amber:      #8E5A14;
+    --amber-soft: #F3EADA;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #10161A;
+      --surface:    #161E23;
+      --ink:        #E7ECEA;
+      --ink-soft:   #9DACB0;
+      --rule:       #2A363B;
+      --teal:       #6FC9B8;
+      --teal-soft:  #16302D;
+      --amber:      #D9A961;
+      --amber-soft: #2B2418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:      #10161A;
+    --surface:    #161E23;
+    --ink:        #E7ECEA;
+    --ink-soft:   #9DACB0;
+    --rule:       #2A363B;
+    --teal:       #6FC9B8;
+    --teal-soft:  #16302D;
+    --amber:      #D9A961;
+    --amber-soft: #2B2418;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.62;
+    margin: 0;
+    padding: 0 20px;
+  }
+
+  .sheet {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding-block: 56px 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  h1, h2, h3 { font-family: Newsreader, Georgia, serif; font-weight: 500; text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(2.05rem, 6vw, 2.8rem); line-height: 1.12; letter-spacing: -0.01em; }
+  h3 { font-size: 1.08rem; line-height: 1.35; font-weight: 600; }
+  p  { margin: 0; }
+  strong { font-weight: 600; }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+
+  /* ---- masthead ---- */
+  header { display: flex; flex-direction: column; gap: 16px; }
+  .masthead-meta {
+    display: flex; flex-wrap: wrap; gap: 8px 22px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-soft);
+    border-top: 2px solid var(--ink); padding-top: 12px;
+  }
+  .lede { font-size: 1.14rem; color: var(--ink-soft); }
+
+  /* ---- TL;DR blocks with disclosure ---- */
+  .blocks { display: flex; flex-direction: column; gap: 0; }
+
+  details.block { border-top: 1px solid var(--rule); }
+  details.block:last-of-type { border-bottom: 1px solid var(--rule); }
+
+  details.block > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 22px 0;
+    display: grid;
+    grid-template-columns: 1fr 1.6rem;
+    gap: 4px 14px;
+    align-items: start;
+  }
+  details.block > summary::-webkit-details-marker { display: none; }
+  summary:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; }
+
+  .sum-text { display: flex; flex-direction: column; gap: 6px; }
+  .sum-label {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.7rem; letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--teal);
+  }
+  .sum-tldr { font-family: Newsreader, Georgia, serif; font-size: 1.32rem; line-height: 1.32; }
+  .sum-more {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.7rem;
+    letter-spacing: 0.08em; color: var(--ink-soft);
+  }
+  .chev {
+    justify-self: end; align-self: center;
+    width: 1.6rem; height: 1.6rem; border-radius: 50%;
+    border: 1px solid var(--rule); background: var(--surface);
+    display: grid; place-items: center;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.95rem; color: var(--teal);
+    transition: transform 160ms ease;
+  }
+  details.block[open] .chev { transform: rotate(45deg); }
+  details.block[open] .sum-more { visibility: hidden; }
+  @media (prefers-reduced-motion: reduce) { .chev { transition: none; } }
+
+  .detail { display: flex; flex-direction: column; gap: 26px; padding: 2px 0 32px; }
+  .prose { display: flex; flex-direction: column; gap: 13px; }
+  .group { display: flex; flex-direction: column; gap: 12px; }
+  .note { font-size: 0.96rem; color: var(--ink-soft); }
+
+  /* ---- fact ledger ---- */
+  .ledger { display: flex; flex-direction: column; }
+  .ledger-row {
+    display: grid; grid-template-columns: 12rem 1fr; gap: 4px 18px;
+    padding: 10px 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+  }
+  .ledger-row:first-child { border-top: 1px solid var(--rule); }
+  .ledger-row dt {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.72rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-soft);
+  }
+  .ledger-row dd { margin: 0; font-variant-numeric: tabular-nums; }
+  @media (max-width: 560px) { .ledger-row { grid-template-columns: 1fr; } }
+
+  /* ---- numbered item rows (levers, rules, steps) ---- */
+  .rows > .row:first-child { border-top: 1px solid var(--rule); }
+  .row {
+    display: grid; grid-template-columns: 2.2rem 1fr; gap: 6px 14px;
+    padding: 16px 0; border-bottom: 1px solid var(--rule);
+  }
+  .row-num { font-family: "IBM Plex Mono", monospace; font-size: 1.05rem; color: var(--teal); padding-top: 2px; }
+  .row.declined .row-num { color: var(--amber); }
+  .row-body { display: flex; flex-direction: column; gap: 7px; }
+  .verdict {
+    display: inline-block; align-self: flex-start;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 2px;
+    background: var(--teal-soft); color: var(--teal);
+  }
+  .verdict.no { background: var(--amber-soft); color: var(--amber); }
+
+  .callout {
+    background: var(--surface);
+    border-left: 3px solid var(--teal);
+    padding: 17px 19px;
+    display: flex; flex-direction: column; gap: 9px;
+  }
+  .callout h3 { font-family: "Source Sans 3", sans-serif; font-size: 0.98rem; }
+
+  ul.plain { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: 8px; }
+  ul.plain li::marker { color: var(--teal); }
+
+  .tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .tier { background: var(--surface); padding: 17px; display: flex; flex-direction: column; gap: 7px; }
+  .tier .price-figure { font-size: 1.6rem; }
+
+  /* ---- the ask ---- */
+  .ask {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--teal);
+    padding: 26px 24px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .price { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .price-figure { font-family: Newsreader, Georgia, serif; font-size: 2.4rem; line-height: 1; font-variant-numeric: tabular-nums; }
+  .price-unit { font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
+
+  .btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-block; text-decoration: none;
+    font-family: "Source Sans 3", sans-serif; font-size: 0.97rem; font-weight: 600;
+    padding: 12px 20px; border-radius: 3px;
+    border: 1px solid var(--teal);
+    background: var(--teal); color: var(--paper);
+  }
+  .btn.ghost { background: transparent; color: var(--teal); }
+  .btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+
+  .expiry {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.76rem; letter-spacing: 0.05em;
+    background: var(--amber-soft); color: var(--amber);
+    padding: 8px 12px; border-radius: 2px;
+  }
+
+  footer {
+    border-top: 2px solid var(--ink); padding-top: 16px;
+    display: flex; flex-direction: column; gap: 6px;
+    font-size: 0.95rem; color: var(--ink-soft);
+  }
+  footer .sig { font-family: Newsreader, Georgia, serif; font-size: 1.25rem; color: var(--ink); }
+  a { color: var(--teal); }
+</style>
+<style>
+  html { color-scheme: light dark; }
+  body { margin: 0; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header>
+    <p class="eyebrow">Proposal from My Wealth CEO</p>
+    <h1>Getting ahead of your 2026 tax bill</h1>
+    <p class="lede">Prateek &mdash; the whole thing in three lines. Open any one for the detail.</p>
+    <div class="masthead-meta">
+      <span>For: Prateek Uppal</span>
+      <span>From: Sam Prentice, My Wealth CEO</span>
+      <span>September 15, 2026</span>
+    </div>
+  </header>
+
+  <div class="blocks">
+
+    <!-- ===== 1 ===== -->
+    <details class="block">
+      <summary>
+        <span class="sum-text">
+          <span class="sum-label">Where you are</span>
+          <span class="sum-tldr">California resident, a million dollars of income, looking to reduce the tax burden.</span>
+          <span class="sum-more">Open for the numbers</span>
+        </span>
+        <span class="chev" aria-hidden="true">+</span>
+      </summary>
+      <div class="detail">
+
+        <dl class="ledger">
+          <div class="ledger-row"><dt>2026 income</dt><dd>~$1.1M&ndash;$1.2M, all W-2 &mdash; roughly $300&ndash;400K base plus $600&ndash;700K in sales bonus</dd></div>
+          <div class="ledger-row"><dt>The gap</dt><dd>Withholding is short. You estimate $80K&ndash;$120K of additional tax owed</dd></div>
+          <div class="ledger-row"><dt>Where you live</dt><dd>San Jose &mdash; 13.3% California on top of federal</dd></div>
+          <div class="ledger-row"><dt>Your wife's LLC</dt><dd>Recycled-plastic backpacks, winding down on tariffs. ~$50&ndash;60K invested, 130&ndash;140 bags donated to charity</dd></div>
+          <div class="ledger-row"><dt>Rental</dt><dd>One property, roughly breakeven after depreciation</dd></div>
+          <div class="ledger-row"><dt>Capital losses</dt><dd>$120K&ndash;$130K carried forward; no stock sales planned</dd></div>
+          <div class="ledger-row"><dt>Already looked at</dt><dd>Short-term rentals, and leveraged charitable giving &mdash; which you called too risky</dd></div>
+        </dl>
+
+        <div class="group">
+          <p class="eyebrow">Three things that make your situation particular</p>
+          <div class="rows">
+            <div class="row">
+              <span class="row-num">1</span>
+              <div class="row-body">
+                <h3>It's all W-2, which is the hardest income to work with</h3>
+                <p class="note">Business income gives you a dozen doors. W-2 gives you a few, and they have to be opened deliberately &mdash; which is exactly why the levers in the next section matter more here than they would for a business owner. The upside is your picture is clean: one source, no K-1s to reconcile, nothing hiding.</p>
+              </div>
+            </div>
+            <div class="row">
+              <span class="row-num">2</span>
+              <div class="row-body">
+                <h3>California doubles the problem and halves the toolkit</h3>
+                <p class="note">Most of what gets marketed as a tax strategy is a federal strategy. At 13.3%, your state bill on this income is real money on its own, and it needs its own answer rather than being treated as a rounding error on the federal plan.</p>
+              </div>
+            </div>
+            <div class="row">
+              <span class="row-num">3</span>
+              <div class="row-body">
+                <h3>The year is still open &mdash; that's the whole advantage</h3>
+                <p class="note">You have three and a half months. Most people reach me after Thanksgiving, when the only moves left are the ones that can be closed in December, and that shortlist is thin and expensive. Early is where the good options live, and it's the difference between choosing a strategy and taking whatever's still available.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===== 2 ===== -->
+    <details class="block">
+      <summary>
+        <span class="sum-text">
+          <span class="sum-label">What we discussed</span>
+          <span class="sum-tldr">Various strategies discussed, the three levers for mitigating tax clarified, and the rules of tax mitigation defined.</span>
+          <span class="sum-more">Open for the levers and the rules</span>
+        </span>
+        <span class="chev" aria-hidden="true">+</span>
+      </summary>
+      <div class="detail">
+
+        <div class="group">
+          <p class="eyebrow">The rules, in order</p>
+          <div class="rows">
+            <div class="row">
+              <span class="row-num">1</span>
+              <div class="row-body">
+                <h3>Don't lose money</h3>
+                <p class="note">The fastest way to pay no tax is to lose the money. Any strategy that reduces your bill by destroying capital isn't a strategy, it's an expensive way to feel clever.</p>
+              </div>
+            </div>
+            <div class="row">
+              <span class="row-num">2</span>
+              <div class="row-body">
+                <h3>Make a little money</h3>
+                <p class="note">Whatever we put your dollars into should stand on its own as an investment before the tax benefit is counted. If it only works because of the deduction, it doesn't work.</p>
+              </div>
+            </div>
+            <div class="row">
+              <span class="row-num">3</span>
+              <div class="row-body">
+                <h3>Then save on taxes</h3>
+                <p class="note">Third, not first. The order matters: the US code taxes consumption and leaves reinvestment, transfer, and charity largely alone. So we start with what you want your life to look like, then find where that overlaps with what the government already incentivizes. That overlap is the plan &mdash; not a hunt for deductions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="group">
+          <p class="eyebrow">The three levers</p>
+          <div class="rows">
+            <div class="row">
+              <span class="row-num">1</span>
+              <div class="row-body">
+                <h3>Change the entity responsible for the income</h3>
+                <p class="note">Income that lands on your personal return is taxed at your personal rate. Route it through a different entity &mdash; a trust, a C-corp, a charitable remainder trust &mdash; and it's taxed under a different set of rules before it ever reaches your 1040. Harder on pure W-2 than on business income, but not closed off, and worth modeling properly in your case.</p>
+                <span class="verdict">Worth modeling</span>
+              </div>
+            </div>
+            <div class="row">
+              <span class="row-num">2</span>
+              <div class="row-body">
+                <h3>Own things that generate offsetting losses</h3>
+                <p class="note">Real estate, oil and gas, an operating business &mdash; anything you materially participate in. The goal is paper losses from depreciation, not real ones: you keep the asset and the cash flow while the deduction offsets income. Your wife's business losses already worked exactly this way against your W-2. This is most likely where your plan lands.</p>
+                <span class="verdict">Most likely fit</span>
+              </div>
+            </div>
+            <div class="row declined">
+              <span class="row-num">3</span>
+              <div class="row-body">
+                <h3>Buy coupons</h3>
+                <p class="note">Leveraged charitable gifts, conservation easements, the things marketed hardest. Heavy marketing is exactly what draws the IRS in &mdash; they wait for volume, then work through the list. And if the coupon isn't honored three years from now, you owe the tax <em>and</em> the money you paid for the coupon is long gone. You called these too risky before I did. You were right.</p>
+                <span class="verdict no">I don't do these</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <h3>The short-term rental idea only solves half your problem</h3>
+          <p class="note">STR works off bonus depreciation, which the One Big Beautiful Bill brought back federally. <strong>California doesn't conform.</strong> So an STR can mitigate the federal side while your 13.3% keeps right on going &mdash; which is why it gets recommended to Californians who then wonder why their state bill didn't move. If we use it, we pair it with a separate California strategy.</p>
+        </div>
+
+        <div class="callout">
+          <h3>The wind-down: one real deduction, one wishful one</h3>
+          <p class="note">The donated bags are a genuine charitable deduction and flow nicely against W-2 income &mdash; charitable intent makes the tax game easier, not harder. The $50&ndash;60K of equity is the wishful one: in a pass-through, that money most likely already reduced your income on the way in, and the same dollar can't be deducted twice. Worth confirming against the returns, but plan on zeroing out rather than a second loss.</p>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===== 3 ===== -->
+    <details class="block">
+      <summary>
+        <span class="sum-text">
+          <span class="sum-label">Next steps</span>
+          <span class="sum-tldr">A proposal call built off your actual data &mdash; then we decide together whether to work together.</span>
+          <span class="sum-more">Open for what I need and what it costs</span>
+        </span>
+        <span class="chev" aria-hidden="true">+</span>
+      </summary>
+      <div class="detail">
+
+        <div class="group">
+          <p class="eyebrow">How it runs</p>
+          <div class="rows">
+            <div class="row">
+              <span class="row-num">1</span>
+              <div class="row-body">
+                <h3>You send me the data</h3>
+                <p class="note">Last two years of tax returns, your personal financial statement, and the LLC return if it has one. That's it &mdash; I'd rather work from the real documents than from estimates, because the difference between what people think their return says and what it actually says is usually where the opportunity is.</p>
+              </div>
+            </div>
+            <div class="row">
+              <span class="row-num">2</span>
+              <div class="row-body">
+                <h3>I build the plan, then we work it live</h3>
+                <p class="note">Block 90 minutes. I'll have modeled the levers against your real numbers, federal and California separately, and we go through it together rather than me presenting at you. You'll leave with it in writing &mdash; and that plan is yours to keep whether or not we go further.</p>
+              </div>
+            </div>
+            <div class="row">
+              <span class="row-num">3</span>
+              <div class="row-body">
+                <h3>Then you decide</h3>
+                <p class="note">Nothing to decide before that call, because there's nothing to decide until you've seen the work. At the end of it I'll tell you what an ongoing engagement would look like and what it would cost, and you'll have enough in hand to judge it. If the answer is no, you still keep the plan.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="group">
+          <p class="eyebrow">If we go ongoing</p>
+          <p class="note">I'm a strategist, not a preparer &mdash; I don't file your return. I work across four areas: taxes, legal, cash flow, and mindset. Think fractional family office. Your CPA, your attorney and your advisors each know their own domain and almost never coordinate; my job is to sit above all of them on your behalf and make sure they're building the same thing.</p>
+          <p class="note">Two working sessions a month. After every strategy I write the brief for whoever has to implement it, so your CPA receives it in their language and it actually gets done instead of dying in translation. Between sessions I do the off-cycle work that makes implementation easy.</p>
+          <div class="tiers">
+            <div class="tier">
+              <span class="price-figure">$2,000</span>
+              <span class="price-unit">per month</span>
+              <p class="note">Where your situation lands today.</p>
+            </div>
+            <div class="tier">
+              <span class="price-figure">$4,000</span>
+              <span class="price-unit">per month &mdash; top of range</span>
+              <p class="note">More complexity and more moving entities than you carry.</p>
+            </div>
+          </div>
+          <p class="note">My rule is five times the value of what you pay me. If I can't get there once I see your numbers, I'll tell you that and tell you why, and we'll find the right time instead. Clients grow into the range &mdash; I'd rather start you correctly than start you expensively.</p>
+        </div>
+
+      </div>
+    </details>
+
+  </div>
+
+  <!-- ===== the ask ===== -->
+  <div class="ask">
+    <p class="eyebrow">To start</p>
+    <div class="price">
+      <span class="price-figure">$1,000</span>
+      <span class="price-unit">one-time onboarding</span>
+    </div>
+    <ul class="plain">
+      <li>The written plan is <strong>yours to keep</strong>, whether or not we continue.</li>
+      <li>A <strong>pre-launch draft</strong> of my book, <em>The Seven Money Frameworks</em> &mdash; before it's released.</li>
+      <li><strong>One month of access to the money game</strong> &mdash; the one I built and run at the workshops.</li>
+      <li>If you go ongoing, it <strong>credits toward your first retainer</strong>.</li>
+      <li>If you finish the proposal call and don't feel you got the value, <strong>I refund it, 100%.</strong></li>
+    </ul>
+    <div class="btn-row">
+      <a class="btn" href="https://funnels.mywealthceo.com/agreements-1konetime">Complete onboarding &mdash; $1,000</a>
+      <a class="btn ghost" href="https://meetme.so/wceo">Book the proposal call</a>
+    </div>
+    <p class="expiry">
+      <span>This proposal holds through</span>
+      <strong>Monday, September 22, 2026</strong>
+      <span id="countdown"></span>
+    </p>
+  </div>
+
+  <footer>
+    <p class="sig">&mdash; Sam</p>
+    <p>Samuel Prentice &middot; My Wealth CEO &middot; sam@mywealthceo.com</p>
+    <p style="font-size:0.85rem;">Strategy, not tax preparation or legal advice. Everything here is based on our call and gets confirmed against your actual returns before anything is implemented with your CPA.</p>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var el = document.getElementById('countdown');
+    if (!el) return;
+    var end = new Date('2026-09-22T23:59:59-07:00').getTime();
+    var days = Math.ceil((end - Date.now()) / 86400000);
+    if (days > 1) el.textContent = '· ' + days + ' days left';
+    else if (days === 1) el.textContent = '· last day';
+    else if (days <= 0) el.textContent = '· expired — reach out and I’ll reissue it';
+  })();
+</script>
+</body>
+</html>
