@@ -168,6 +168,30 @@
   }
   .verdict.no { background: var(--amber-soft); color: var(--amber); }
 
+  /* ---- rule scorecard ---- */
+  .scorecard { display: flex; flex-direction: column; border-top: 1px solid var(--rule); }
+  .crit {
+    display: grid; grid-template-columns: 1.4rem 10.5rem 1fr; gap: 4px 12px;
+    padding: 10px 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+  }
+  .crit::before {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.85rem; line-height: 1.5;
+  }
+  .crit.pass::before { content: "\2713"; color: var(--teal); }
+  .crit.fail::before { content: "\2715"; color: var(--amber); }
+  .crit.hold::before { content: "\007E"; color: var(--amber); }
+  .crit-rule {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
+    letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-soft);
+  }
+  .crit.fail .crit-rule, .crit.hold .crit-rule { color: var(--amber); }
+  .crit-note { font-size: 0.95rem; color: var(--ink-soft); }
+  @media (max-width: 560px) {
+    .crit { grid-template-columns: 1.4rem 1fr; }
+    .crit-rule { grid-column: 2; }
+    .crit-note { grid-column: 2; }
+  }
+
   .callout {
     background: var(--surface);
     border-left: 3px solid var(--teal);
@@ -309,60 +333,41 @@
       <div class="detail">
 
         <div class="group">
-          <p class="eyebrow">The rules, in order</p>
-          <div class="rows">
-            <div class="row">
-              <span class="row-num">1</span>
-              <div class="row-body">
-                <h3>Don't lose money</h3>
-                <p class="note">The fastest way to pay no tax is to lose the money. Any strategy that reduces your bill by destroying capital isn't a strategy, it's an expensive way to feel clever.</p>
-              </div>
-            </div>
-            <div class="row">
-              <span class="row-num">2</span>
-              <div class="row-body">
-                <h3>Make a little money</h3>
-                <p class="note">Whatever we put your dollars into should stand on its own as an investment before the tax benefit is counted. If it only works because of the deduction, it doesn't work.</p>
-              </div>
-            </div>
-            <div class="row">
-              <span class="row-num">3</span>
-              <div class="row-body">
-                <h3>Then save on taxes</h3>
-                <p class="note">Third, not first. The order matters: the US code taxes consumption and leaves reinvestment, transfer, and charity largely alone. So we start with what you want your life to look like, then find where that overlaps with what the government already incentivizes. That overlap is the plan &mdash; not a hunt for deductions.</p>
-              </div>
-            </div>
-          </div>
+          <p class="eyebrow">The test &mdash; applied to all three</p>
+          <p class="note">There are three levers, and every one of them gets run against the same three rules, in this order: <strong>don't lose money</strong>, <strong>make money</strong>, <strong>save on taxes</strong>. Taxes are third, not first. The fastest way to pay no tax is to lose the money, so a lever that fails rule one doesn't get used no matter how good the tax number looks. That's the whole filter, and it's why two of the three below survive and one doesn't.</p>
         </div>
 
         <div class="group">
-          <p class="eyebrow">The three levers</p>
-          <div class="rows">
-            <div class="row">
-              <span class="row-num">1</span>
-              <div class="row-body">
-                <h3>Change the entity responsible for the income</h3>
-                <p class="note">Income that lands on your personal return is taxed at your personal rate. Route it through a different entity &mdash; a trust, a C-corp, a charitable remainder trust &mdash; and it's taxed under a different set of rules before it ever reaches your 1040. Harder on pure W-2 than on business income, but not closed off, and worth modeling properly in your case.</p>
-                <span class="verdict">Worth modeling</span>
-              </div>
-            </div>
-            <div class="row">
-              <span class="row-num">2</span>
-              <div class="row-body">
-                <h3>Own things that generate offsetting losses</h3>
-                <p class="note">Real estate, oil and gas, an operating business &mdash; anything you materially participate in. The goal is paper losses from depreciation, not real ones: you keep the asset and the cash flow while the deduction offsets income. Your wife's business losses already worked exactly this way against your W-2. This is most likely where your plan lands.</p>
-                <span class="verdict">Most likely fit</span>
-              </div>
-            </div>
-            <div class="row declined">
-              <span class="row-num">3</span>
-              <div class="row-body">
-                <h3>Buy coupons</h3>
-                <p class="note">Leveraged charitable gifts, conservation easements, the things marketed hardest. Heavy marketing is exactly what draws the IRS in &mdash; they wait for volume, then work through the list. And if the coupon isn't honored three years from now, you owe the tax <em>and</em> the money you paid for the coupon is long gone. You called these too risky before I did. You were right.</p>
-                <span class="verdict no">I don't do these</span>
-              </div>
-            </div>
+          <p class="eyebrow">Lever 1 &mdash; change the entity responsible</p>
+          <p class="note">Income that lands on your personal return is taxed at your personal rate. Route it through a different entity &mdash; a trust, a C-corp, a charitable remainder trust &mdash; and it's taxed under a different set of rules before it ever reaches your 1040. Harder on pure W-2 than on business income, but not closed off.</p>
+          <div class="scorecard">
+            <div class="crit pass"><span class="crit-rule">Don't lose money</span><span class="crit-note">Nothing is spent. The capital stays yours, it just answers to different rules.</span></div>
+            <div class="crit pass"><span class="crit-rule">Make money</span><span class="crit-note">The money keeps working inside the structure while it's there.</span></div>
+            <div class="crit pass"><span class="crit-rule">Save on taxes</span><span class="crit-note">Taxed under the entity's rules instead of your marginal rate.</span></div>
           </div>
+          <span class="verdict">Passes all three &mdash; worth modeling</span>
+        </div>
+
+        <div class="group">
+          <p class="eyebrow">Lever 2 &mdash; buy assets that create losses</p>
+          <p class="note">Real estate, oil and gas, an operating business &mdash; anything you materially participate in. The goal is paper losses from depreciation, not real ones: you keep the asset and its cash flow while the deduction offsets income. Your wife's business losses already worked exactly this way against your W-2.</p>
+          <div class="scorecard">
+            <div class="crit pass"><span class="crit-rule">Don't lose money</span><span class="crit-note">You still own the asset. The loss is on paper, not in your pocket.</span></div>
+            <div class="crit pass"><span class="crit-rule">Make money</span><span class="crit-note">Only if it stands on its own as an investment first &mdash; that's the bar I hold it to.</span></div>
+            <div class="crit pass"><span class="crit-rule">Save on taxes</span><span class="crit-note">Depreciation offsets income while the asset keeps producing.</span></div>
+          </div>
+          <span class="verdict">Passes all three &mdash; most likely fit</span>
+        </div>
+
+        <div class="group">
+          <p class="eyebrow">Lever 3 &mdash; buy coupons</p>
+          <p class="note">Leveraged charitable gifts, conservation easements, the things marketed hardest. Heavy marketing is exactly what draws the IRS in &mdash; they wait for volume, then work through the list. You called these too risky before I did. You were right.</p>
+          <div class="scorecard">
+            <div class="crit fail"><span class="crit-rule">Don't lose money</span><span class="crit-note">Fails here, and that ends it. If the coupon isn't honored in three years, you owe the tax <em>and</em> the money you paid is long gone.</span></div>
+            <div class="crit fail"><span class="crit-rule">Make money</span><span class="crit-note">There's no asset to own and nothing to earn. You bought a piece of paper.</span></div>
+            <div class="crit hold"><span class="crit-rule">Save on taxes</span><span class="crit-note">Only if it holds up &mdash; which is the one thing you can't know when you buy it.</span></div>
+          </div>
+          <span class="verdict no">Fails rule one &mdash; I don't do these</span>
         </div>
 
         <div class="callout">
