@@ -148,6 +148,8 @@
   }
   .veil .vt{font-family:var(--mono);font-size:54px;color:#5C4A2C;font-variant-numeric:tabular-nums;}
   .veil .vn{font-family:var(--display);font-style:italic;font-size:19px;color:#3E4654;}
+  .veil .vl{font-family:var(--display);font-style:italic;font-size:clamp(19px,4.4vw,26px);
+    line-height:1.45;color:#7A6340;max-width:22ch;min-height:2.6em;}
   .veil .vh{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#2B3240;}
 
   /* ---------- done ---------- */
@@ -202,6 +204,7 @@
       </div>
       <span class="screen-tag" id="screenTag"><span class="dot"></span><span id="screenTxt"></span></span>
       <p class="cue" id="cue"></p>
+      <p class="cue" id="liveLine" style="color:var(--amber)" hidden></p>
       <ul class="steps" id="steps"></ul>
       <p class="why" id="why"></p>
     </section>
@@ -229,6 +232,7 @@
 
 <div class="veil" id="veil" hidden>
   <div class="vn" id="veilName"></div>
+  <div class="vl" id="veilLine"></div>
   <div class="vt" id="veilTimer">00:00</div>
   <div class="vh">Tap anywhere to bring the screen back</div>
 </div>
@@ -346,7 +350,23 @@
         "Sitting or lying, hands on your belly, eyes closed.",
         "If you lose count, start again at four. Losing count is fine."
       ],
-      why:"Exhaling longer than you inhale slows the heart directly through the vagus nerve. <b>Five minutes a day of this pattern lowers resting heart rate, improves mood, and reduces breathing rate more than equivalent meditation</b> in head-to-head trials. It works within a single breath, which is why it's here and not earlier."
+      why:"Exhaling longer than you inhale slows the heart directly through the vagus nerve. <b>Five minutes a day of this pattern lowers resting heart rate, improves mood, and reduces breathing rate more than equivalent meditation</b> in head-to-head trials. It works within a single breath, which is why it's here and not earlier.",
+      voice:[
+        "Two sniffs in through the nose. One long sigh out.",
+        "Again. In, in — and let it fall out of you.",
+        "You don't have to do this well. You just have to keep doing it.",
+        "Eight more of those. I'm counting them with you.",
+        "Now four in. Hold, seven. Out, eight — slower than feels natural.",
+        "In, two, three, four. Hold it.",
+        "Long way out. All of it.",
+        "If you lost the count, you're not failing. Start at four.",
+        "Your heart rate is already coming down. This is the part that works.",
+        "Keep going. The exhale is doing the work.",
+        "In for four. The hold is where the mind wanders — let it.",
+        "Out for eight. Jaw loose. Shoulders down.",
+        "Nearly there. Stay with the breath, not the clock.",
+        "Last minute. Long, easy exhales."
+      ]
     },
     {
       n:"Body scan in the dark", m:10, screen:"closed",
@@ -358,7 +378,31 @@
         "Hips, thighs, calves, feet. Spend a slow breath on each.",
         "Then start again at the top. If you fall asleep partway, that was the point."
       ],
-      why:"Deliberate rest without effort lowers arousal even when you don't fall asleep, and it gives your attention something dull and bodily to hold instead of tomorrow. <b>Falling asleep during this block is a success, not a skipped step.</b>"
+      why:"Deliberate rest without effort lowers arousal even when you don't fall asleep, and it gives your attention something dull and bodily to hold instead of tomorrow. <b>Falling asleep during this block is a success, not a skipped step.</b>",
+      voice:[
+        "Lie down. I'll take it from here — you don't have to steer.",
+        "Start at the top of your head. Just notice it's there.",
+        "Forehead. Let it be heavy.",
+        "Eyes. Let them sit back in your head.",
+        "Jaw. Let it hang open a little. Most people hold the whole day here.",
+        "Throat, and the front of your neck. Soften.",
+        "Shoulders. Let them fall away from your ears.",
+        "Upper arms, elbows, forearms.",
+        "Hands. Each finger. Let them be open.",
+        "Chest. Feel it rise without helping it.",
+        "Belly. Let it be soft — you don't need to hold it in here.",
+        "Lower back, sinking into the mattress.",
+        "Hips. Heavy.",
+        "Thighs. Knees. Let them be loose.",
+        "Calves. Ankles.",
+        "Feet. All the way to the toes.",
+        "If your mind ran off somewhere, that's fine. Come back to your feet.",
+        "Now the whole body at once. Heavy, warm, done for the day.",
+        "Start again at the top if you're still here.",
+        "Forehead. Jaw. Shoulders.",
+        "Nothing to do now. Nothing to solve.",
+        "I've got the time. You don't have to check anything."
+      ]
     },
     {
       n:"Lights out", m:8, screen:"closed",
@@ -369,7 +413,21 @@
         "If thoughts come, name them \"thinking\" and go back to the feeling of the exhale.",
         "You don't have to fall asleep. You only have to lie here and stop trying."
       ],
-      why:"Trying to sleep is arousing — effort is the opposite of the state you want. <b>Permission not to sleep is what reliably ends the sleep-effort loop.</b> Same twelve blocks tomorrow; consistency is what moves your baseline, not any one night."
+      why:"Trying to sleep is arousing — effort is the opposite of the state you want. <b>Permission not to sleep is what reliably ends the sleep-effort loop.</b> Same twelve blocks tomorrow; consistency is what moves your baseline, not any one night.",
+      voice:[
+        "Last lamp off. That's everything done.",
+        "You got through the whole two hours. That counts for something.",
+        "Onto your side. Covers right. Jaw loose.",
+        "Nothing is required of you now.",
+        "If a thought shows up, call it \"thinking\" and go back to the breath.",
+        "It'll still be there tomorrow, and you'll be better equipped for it.",
+        "You don't have to fall asleep. You only have to lie here.",
+        "The room is dark, it's cool, you're safe, and the day is closed.",
+        "Long exhale.",
+        "Another one.",
+        "I'm here until the end of this. Then you're on your own with the quiet — and that's the good kind tonight.",
+        "Sleep when it comes. No hurry."
+      ]
     }
   ];
 
@@ -493,6 +551,19 @@
     $("timer").textContent = t;
     $("timer").className = "timer" + (state.running?"":" paused");
     $("veilTimer").textContent = t;
+    paintVoice();
+  }
+
+  function paintVoice(){
+    var b = BLOCKS[state.i], line = "";
+    if(b && b.voice && b.voice.length){
+      var total = b.m*60, gone = total - state.left;
+      var k = Math.floor(gone / (total / b.voice.length));
+      line = b.voice[Math.max(0, Math.min(b.voice.length-1, k))];
+    }
+    $("veilLine").textContent = line;
+    $("liveLine").textContent = line;
+    $("liveLine").hidden = !line;
   }
 
   function updateEndsAt(){
