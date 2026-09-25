@@ -1,0 +1,608 @@
+<title>The Ten O'Clock Descent</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,500;1,6..72,300&family=IBM+Plex+Mono:wght@300;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap">
+<style>
+  :root{
+    color-scheme: dark;
+    --ink:#0A0D13;
+    --panel:#111722;
+    --panel-2:#161E2B;
+    --line:#232D3E;
+    --text:#EDE6D9;
+    --muted:#95A0B3;
+    --amber:#E3A343;
+    --amber-dim:#8A6528;
+    --sage:#7FA08A;
+    --display:"Newsreader",Georgia,"Times New Roman",serif;
+    --body:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  }
+  html,body{height:100%;}
+  body{
+    margin:0;background:var(--ink);color:var(--text);
+    font-family:var(--body);font-weight:300;font-size:16px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{
+    height:100%;display:flex;flex-direction:column;
+    padding:0 16px;max-width:920px;margin:0 auto;box-sizing:border-box;
+  }
+  button{font-family:inherit;color:inherit;cursor:pointer;}
+  button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--amber);outline-offset:3px;}
+
+  /* ---------- header ---------- */
+  .bar{
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    padding-block:14px 10px;border-bottom:1px solid var(--line);
+  }
+  .mark{
+    font-family:var(--display);font-size:17px;letter-spacing:.01em;
+    color:var(--text);white-space:nowrap;
+  }
+  .mark em{font-style:italic;color:var(--amber);}
+  .bar .spacer{flex:1;}
+  .clock{font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .ghost{
+    background:none;border:1px solid var(--line);border-radius:999px;
+    padding:6px 12px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);transition:border-color .2s,color .2s;
+  }
+  .ghost:hover{border-color:var(--amber-dim);color:var(--text);}
+  .ghost[aria-pressed="true"]{border-color:var(--amber-dim);color:var(--amber);}
+
+  /* ---------- setup ---------- */
+  .stage{flex:1;overflow-y:auto;padding-block:26px 8px;}
+  .setup{max-width:60ch;}
+  .kicker{
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);
+    margin:0 0 14px;
+  }
+  h1{
+    font-family:var(--display);font-weight:300;font-size:clamp(34px,7vw,54px);
+    line-height:1.05;margin:0 0 16px;text-wrap:balance;
+  }
+  h1 em{font-style:italic;color:var(--amber);}
+  .lede{color:var(--muted);font-size:17px;margin:0 0 26px;}
+  .field{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-bottom:22px;}
+  .field label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
+  input[type=time]{
+    background:var(--panel);border:1px solid var(--line);border-radius:8px;
+    color:var(--text);font-family:var(--mono);font-size:18px;padding:11px 12px;
+  }
+  .start{
+    background:var(--amber);border:none;border-radius:8px;color:#14100A;
+    font-size:15px;font-weight:500;letter-spacing:.02em;padding:13px 26px;
+  }
+  .start:hover{background:#F0B254;}
+  .plan{border-top:1px solid var(--line);margin-top:6px;}
+  .plan-row{
+    display:grid;grid-template-columns:76px 1fr auto;gap:14px;align-items:baseline;
+    padding:11px 2px;border-bottom:1px solid var(--line);
+  }
+  .plan-row time{font-family:var(--mono);font-size:13px;color:var(--amber);font-variant-numeric:tabular-nums;}
+  .plan-row .nm{font-size:15px;}
+  .plan-row .dur{font-family:var(--mono);font-size:12px;color:var(--muted);}
+  .plan-row .nm small{display:block;color:var(--muted);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;margin-top:3px;}
+
+  /* ---------- running block ---------- */
+  .block{display:flex;flex-direction:column;gap:20px;}
+  .head{display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;}
+  .head .title{flex:1;min-width:230px;}
+  .idx{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.1em;}
+  h2{
+    font-family:var(--display);font-weight:300;font-size:clamp(28px,5.6vw,42px);
+    line-height:1.1;margin:8px 0 0;text-wrap:balance;
+  }
+  .timer{
+    font-family:var(--mono);font-weight:300;font-variant-numeric:tabular-nums;
+    font-size:clamp(46px,11vw,76px);line-height:1;color:var(--amber);letter-spacing:-.02em;
+  }
+  .timer.paused{color:var(--muted);}
+  .screen-tag{
+    display:inline-flex;align-items:center;gap:8px;
+    border:1px solid var(--line);border-radius:999px;padding:5px 13px;
+    font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);
+  }
+  .screen-tag .dot{width:7px;height:7px;border-radius:50%;background:var(--sage);}
+  .screen-tag[data-screen="away"] .dot{background:var(--amber);}
+  .screen-tag[data-screen="closed"] .dot{background:#6C7A8E;}
+  .cue{
+    font-family:var(--display);font-style:italic;font-size:clamp(19px,3.4vw,24px);
+    line-height:1.45;color:var(--text);margin:0;max-width:34ch;
+  }
+  ul.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;max-width:62ch;}
+  ul.steps li{display:flex;gap:13px;font-size:16.5px;color:var(--text);}
+  ul.steps li::before{
+    content:"";flex:none;width:6px;height:6px;border-radius:50%;
+    background:var(--amber-dim);margin-top:10px;
+  }
+  .why{
+    border-left:2px solid var(--amber-dim);padding:2px 0 2px 15px;
+    color:var(--muted);font-size:14.5px;max-width:58ch;margin:0;
+  }
+  .why b{color:var(--text);font-weight:400;}
+
+  /* ---------- transport ---------- */
+  .foot{border-top:1px solid var(--line);padding-block:12px 16px;display:flex;flex-direction:column;gap:12px;}
+  .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .play{
+    background:var(--panel-2);border:1px solid var(--line);border-radius:8px;
+    padding:11px 22px;font-size:14px;letter-spacing:.03em;min-width:112px;
+  }
+  .play:hover{border-color:var(--amber-dim);}
+  .play.go{background:var(--amber);color:#14100A;border-color:var(--amber);}
+  .rail{display:flex;gap:4px;}
+  .rail button{
+    flex:1;height:7px;padding:0;border:none;border-radius:2px;background:var(--line);
+    position:relative;overflow:hidden;
+  }
+  .rail button[data-state="done"]{background:var(--amber-dim);}
+  .rail button[data-state="now"]{background:var(--panel-2);}
+  .rail button .fill{position:absolute;inset:0 auto 0 0;background:var(--amber);width:0%;}
+  .rail button:hover{outline:1px solid var(--amber-dim);}
+
+  /* ---------- dim / eyes-closed veil ---------- */
+  .veil{
+    position:fixed;inset:0;background:#05070A;z-index:20;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+    padding:24px;text-align:center;cursor:pointer;
+  }
+  .veil .vt{font-family:var(--mono);font-size:54px;color:#5C4A2C;font-variant-numeric:tabular-nums;}
+  .veil .vn{font-family:var(--display);font-style:italic;font-size:19px;color:#3E4654;}
+  .veil .vh{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#2B3240;}
+
+  /* ---------- done ---------- */
+  .done{max-width:52ch;}
+  .done h2{margin-bottom:14px;}
+  .streak{font-family:var(--mono);font-size:13px;color:var(--muted);}
+
+  @media (max-width:520px){
+    .head{gap:12px;}
+    .plan-row{grid-template-columns:66px 1fr;}
+    .plan-row .dur{grid-column:2;color:var(--muted);}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+
+<div class="app">
+  <div class="bar">
+    <span class="mark">The Ten O'Clock <em>Descent</em></span>
+    <span class="spacer"></span>
+    <span class="clock" id="clock"></span>
+    <button class="ghost" id="soundBtn" aria-pressed="true">Chime on</button>
+    <button class="ghost" id="dimBtn" hidden>Screen down</button>
+    <button class="ghost" id="resetBtn" hidden>Restart</button>
+  </div>
+
+  <div class="stage" id="stage">
+    <!-- setup -->
+    <section class="setup" id="setup">
+      <p class="kicker">Two hours · Twelve blocks · Screen off for ninety-four minutes of it</p>
+      <h1>Come down the <em>stairs</em>, don't jump off the roof.</h1>
+      <p class="lede">Tell me when you want to be asleep. I'll run the two hours before it — one block at a time, timed, with a chime at each handover so the phone can stay in another room.</p>
+      <div class="field">
+        <div>
+          <label for="bedtime">Lights out at</label>
+          <input type="time" id="bedtime" value="22:00">
+        </div>
+        <button class="start" id="startBtn">Begin the descent</button>
+      </div>
+      <div class="plan" id="plan"></div>
+    </section>
+
+    <!-- running -->
+    <section class="block" id="block" hidden>
+      <div class="head">
+        <div class="title">
+          <span class="idx" id="idx"></span>
+          <h2 id="name"></h2>
+        </div>
+        <div>
+          <div class="timer" id="timer">00:00</div>
+        </div>
+      </div>
+      <span class="screen-tag" id="screenTag"><span class="dot"></span><span id="screenTxt"></span></span>
+      <p class="cue" id="cue"></p>
+      <ul class="steps" id="steps"></ul>
+      <p class="why" id="why"></p>
+    </section>
+
+    <!-- finished -->
+    <section class="done" id="done" hidden>
+      <span class="kicker">02:00:00 · complete</span>
+      <h2>That's the whole descent.</h2>
+      <p class="lede">Phone stays where it is until morning. If you're awake in twenty minutes, get up, sit in the dark, come back when you're heavy — don't lie there negotiating.</p>
+      <p class="streak" id="streakTxt"></p>
+    </section>
+  </div>
+
+  <div class="foot" id="foot" hidden>
+    <div class="controls">
+      <button class="play go" id="playBtn">Pause</button>
+      <button class="ghost" id="backBtn">Back</button>
+      <button class="ghost" id="nextBtn">Next block</button>
+      <span class="spacer"></span>
+      <span class="clock" id="endsAt"></span>
+    </div>
+    <div class="rail" id="rail"></div>
+  </div>
+</div>
+
+<div class="veil" id="veil" hidden>
+  <div class="vn" id="veilName"></div>
+  <div class="vt" id="veilTimer">00:00</div>
+  <div class="vh">Tap anywhere to bring the screen back</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var BLOCKS = [
+    {
+      n:"Shutdown ritual", m:5, screen:"screen on, last time",
+      cue:"Finish the day on paper so your head stops carrying it.",
+      steps:[
+        "Write tomorrow's three real tasks on paper. Not a list of twelve — three.",
+        "Write anything unfinished that's nagging you underneath them.",
+        "Say it out loud: \"Work is closed.\" Close the laptop and leave the room."
+      ],
+      why:"An open loop keeps the stress system running. <b>Writing down what's unfinished, plus the first step, measurably reduces how much it intrudes later</b> — the task stops needing your attention to stay alive."
+    },
+    {
+      n:"Park the phone", m:7, screen:"away",
+      cue:"Last call. Then it goes in another room, face down, for the night.",
+      steps:[
+        "Reply to anything genuinely urgent. Three minutes, no scrolling.",
+        "Do Not Disturb on. Alarm set. Charger moved out of the bedroom.",
+        "Phone goes in the kitchen or hallway — a different room, not the far side of the bed.",
+        "This page is the only screen left, and it stays dim."
+      ],
+      why:"Distance does the work that willpower can't. <b>A phone within arm's reach keeps attention partly allocated to it even while unused</b> — and one notification is enough to restart the alerting response you spent the last block shutting down."
+    },
+    {
+      n:"Walk outside", m:10, screen:"away",
+      cue:"Ten minutes out in the dropping light. Nose breathing only, all the way out and back.",
+      steps:[
+        "Out the door. No podcast, no headphones — just the walk.",
+        "Breathe in and out through your nose. If you can't, slow down until you can.",
+        "Let your eyes rest on distant things: end of the street, rooftops, sky.",
+        "No hills, no pace. This is not training."
+      ],
+      why:"Evening light tells your clock where the day ends, and easy rhythmic movement shifts you toward the parasympathetic side. <b>Low-intensity walking lowers circulating cortisol; hard evening training raises it.</b> Distance viewing also relaxes the fixation your screen has held all day."
+    },
+    {
+      n:"Close the kitchen", m:10, screen:"away",
+      cue:"Last of the food and water now, so digestion isn't working a night shift.",
+      steps:[
+        "If you need something: small, with protein and a little carbohydrate. Not a meal.",
+        "Last full glass of water — after this, sips only.",
+        "Nothing with caffeine or alcohol. Alcohol is the one that costs you the second half of the night.",
+        "Dishes done, counters clear, kitchen light off. The room is closed."
+      ],
+      why:"Late heavy meals and alcohol both fragment sleep. <b>Alcohol shortens sleep onset but suppresses REM and spikes overnight waking</b> — it feels like a sedative and behaves like a stimulant at 3am. Finishing water now saves you a bathroom trip at four."
+    },
+    {
+      n:"Get on the floor", m:15, screen:"away",
+      cue:"Fifteen minutes of slow, unambitious stretching. Hold everything long enough to get bored.",
+      steps:[
+        "Legs up the wall, two minutes. Hands on your belly, let it rise.",
+        "Figure-four glute stretch, ninety seconds each side.",
+        "Couch stretch or low lunge for the hip flexors, ninety seconds each side.",
+        "Child's pose, then a slow spinal twist each way. Two minutes each.",
+        "Finish flat on your back, knees bent, doing nothing for the last two minutes."
+      ],
+      why:"You hold the day in your hip flexors, jaw, and diaphragm. <b>Long, slow holds with a long exhale lengthen expiration and raise vagal tone</b>, which is the same lever the breathing block pulls — this one just gets your body out of the chair shape first."
+    },
+    {
+      n:"Warm shower", m:10, screen:"away",
+      cue:"Warm, not hot. The point is what happens to your temperature afterwards.",
+      steps:[
+        "Warm enough to be pleasant, not enough to leave you red.",
+        "Let the water run on the back of your neck and shoulders for a stretch of it.",
+        "Come out and don't rush to dress — let yourself cool for a minute.",
+        "Teeth, face, and that's the bathroom done for the night."
+      ],
+      why:"Warming your skin sends blood to the surface, and the heat loss that follows <b>drops your core temperature — the same drop your body uses as a sleep signal.</b> A warm bath or shower one to two hours before bed shortens the time it takes to fall asleep by around ten minutes on average."
+    },
+    {
+      n:"Lights down", m:10, screen:"away",
+      cue:"Take the house down to lamp light. From here on, nothing overhead.",
+      steps:[
+        "Overhead lights off. One or two lamps, low and warm, below eye level.",
+        "Bedroom to about 18°C / 65°F, and open a window if you can.",
+        "Bed turned down, water by the bed, tomorrow's clothes out.",
+        "Sit down in the low light and do nothing for the last couple of minutes."
+      ],
+      why:"Bright evening light suppresses melatonin and pushes your clock later; <b>light from above hits the retinal cells that read it as daytime hardest</b>. Cool, dark, quiet is also the condition your core temperature needs to keep falling."
+    },
+    {
+      n:"Read on paper", m:15, screen:"away",
+      cue:"Fifteen minutes of a physical book. Fiction. Something you'd happily lose the thread of.",
+      steps:[
+        "Paper or e-ink only. Nothing backlit, nothing with a feed in it.",
+        "Fiction beats non-fiction here — you want absorbed, not learning.",
+        "Sit in the lamp light, not in bed, if bed makes you wired.",
+        "If you reach the end of the block mid-chapter, stop anyway."
+      ],
+      why:"This is the longest block for a reason: it's the one that reliably gets your attention off your own life. <b>Six minutes of reading has been shown to cut measured stress by around two thirds</b>, faster than a walk or music in the same test."
+    },
+    {
+      n:"Empty the head", m:10, screen:"away",
+      cue:"Worry on paper now, so it doesn't get a turn at midnight.",
+      steps:[
+        "Five minutes: everything circling. Money, people, work, the stupid stuff. Unedited.",
+        "Beside each one, write the single next action — or the word \"nothing\".",
+        "Then three lines: three things that actually went right today.",
+        "Close the notebook and leave it outside the bedroom."
+      ],
+      why:"This is the block that protects 3am. <b>Writing worries down before bed reduces pre-sleep cognitive arousal</b>, and adding the next action converts a threat your body responds to into a task waiting in a book. The three good things is the part that shifts tomorrow's mood, not tonight's."
+    },
+    {
+      n:"Breathe it down", m:10, screen:"closed",
+      cue:"Long exhales. This is the fastest lever you have on your own nervous system.",
+      steps:[
+        "Physiological sighs, ten rounds: two sharp sniffs in through the nose, one long slow exhale out through the mouth.",
+        "Then 4-7-8 for the rest: in for four, hold for seven, out for eight. Count slowly.",
+        "Sitting or lying, hands on your belly, eyes closed.",
+        "If you lose count, start again at four. Losing count is fine."
+      ],
+      why:"Exhaling longer than you inhale slows the heart directly through the vagus nerve. <b>Five minutes a day of this pattern lowers resting heart rate, improves mood, and reduces breathing rate more than equivalent meditation</b> in head-to-head trials. It works within a single breath, which is why it's here and not earlier."
+    },
+    {
+      n:"Body scan in the dark", m:10, screen:"closed",
+      cue:"Into bed. Eyes closed. I'll keep the time — you don't need to look at anything.",
+      steps:[
+        "Lie down. Screen goes dark now; the chime will tell you when it's done.",
+        "Scalp, jaw, throat. Let the jaw hang open slightly.",
+        "Shoulders, arms, hands. Chest, belly, lower back.",
+        "Hips, thighs, calves, feet. Spend a slow breath on each.",
+        "Then start again at the top. If you fall asleep partway, that was the point."
+      ],
+      why:"Deliberate rest without effort lowers arousal even when you don't fall asleep, and it gives your attention something dull and bodily to hold instead of tomorrow. <b>Falling asleep during this block is a success, not a skipped step.</b>"
+    },
+    {
+      n:"Lights out", m:8, screen:"closed",
+      cue:"Done. Dark room, cool air, nothing left to do but let it happen.",
+      steps:[
+        "Last lamp off. Room fully dark.",
+        "On your side, covers settled, jaw loose.",
+        "If thoughts come, name them \"thinking\" and go back to the feeling of the exhale.",
+        "You don't have to fall asleep. You only have to lie here and stop trying."
+      ],
+      why:"Trying to sleep is arousing — effort is the opposite of the state you want. <b>Permission not to sleep is what reliably ends the sleep-effort loop.</b> Same twelve blocks tomorrow; consistency is what moves your baseline, not any one night."
+    }
+  ];
+
+  var TOTAL = BLOCKS.reduce(function(s,b){return s+b.m;},0); // 120
+
+  var SCREEN_LABEL = {
+    "screen on, last time":"Screen on — last time tonight",
+    "away":"Phone away · this page dim",
+    "closed":"Eyes closed · screen goes dark"
+  };
+
+  var $ = function(id){return document.getElementById(id);};
+  var stage=$("stage"), setup=$("setup"), blockEl=$("block"), doneEl=$("done"), foot=$("foot");
+  var veil=$("veil");
+
+  var state = { i:0, left:BLOCKS[0].m*60, running:false, started:false, finished:false, sound:true, dim:false };
+  var last = 0, ac = null;
+
+  /* ---- storage (best effort only) ---- */
+  function store(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function load(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+
+  /* ---- time helpers ---- */
+  function two(n){ return (n<10?"0":"")+n; }
+  function mmss(s){ s=Math.max(0,Math.round(s)); return two(Math.floor(s/60))+":"+two(s%60); }
+  function hhmm(d){
+    var h=d.getHours(), m=d.getMinutes(), ap=h<12?"am":"pm", h12=h%12; if(h12===0)h12=12;
+    return h12+":"+two(m)+ap;
+  }
+
+  /* ---- the plan preview ---- */
+  function renderPlan(){
+    var v = $("bedtime").value || "22:00";
+    var parts = v.split(":");
+    var end = new Date();
+    end.setHours(parseInt(parts[0],10)||22, parseInt(parts[1],10)||0, 0, 0);
+    var t = new Date(end.getTime() - TOTAL*60000);
+    var html = "";
+    for(var i=0;i<BLOCKS.length;i++){
+      var b = BLOCKS[i];
+      html += '<div class="plan-row"><time>'+hhmm(t)+'</time>'
+           +  '<div class="nm">'+b.n+'<small>'+SCREEN_LABEL[b.screen]+'</small></div>'
+           +  '<div class="dur">'+b.m+' min</div></div>';
+      t = new Date(t.getTime()+b.m*60000);
+    }
+    $("plan").innerHTML = html;
+  }
+
+  /* ---- rail ---- */
+  function buildRail(){
+    var r = $("rail"); r.innerHTML="";
+    BLOCKS.forEach(function(b,i){
+      var el = document.createElement("button");
+      el.type="button";
+      el.setAttribute("aria-label","Block "+(i+1)+": "+b.n);
+      el.innerHTML='<span class="fill"></span>';
+      el.addEventListener("click", function(){ goTo(i); });
+      r.appendChild(el);
+    });
+  }
+  function paintRail(){
+    var kids = $("rail").children;
+    for(var i=0;i<kids.length;i++){
+      var st = i<state.i ? "done" : (i===state.i ? "now" : "todo");
+      kids[i].setAttribute("data-state", st);
+      var pct = i<state.i ? 100 : (i===state.i ? (1 - state.left/(BLOCKS[i].m*60))*100 : 0);
+      kids[i].firstChild.style.width = Math.max(0,Math.min(100,pct))+"%";
+    }
+  }
+
+  /* ---- chime ---- */
+  function chime(kind){
+    if(!state.sound) return;
+    try{
+      if(!ac){ var C = window.AudioContext||window.webkitAudioContext; if(!C) return; ac = new C(); }
+      if(ac.state==="suspended") ac.resume();
+      var notes = kind==="end" ? [392,523.25,659.25] : [523.25,659.25];
+      notes.forEach(function(f,k){
+        var o=ac.createOscillator(), g=ac.createGain(), t=ac.currentTime+k*0.42;
+        o.type="sine"; o.frequency.value=f;
+        g.gain.setValueAtTime(0.0001,t);
+        g.gain.exponentialRampToValueAtTime(0.16,t+0.06);
+        g.gain.exponentialRampToValueAtTime(0.0001,t+1.7);
+        o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t+1.8);
+      });
+    }catch(e){}
+  }
+
+  /* ---- wake lock (optional, may be refused) ---- */
+  var lock=null;
+  function keepAwake(){
+    try{
+      if(navigator.wakeLock && !lock){
+        navigator.wakeLock.request("screen").then(function(l){
+          lock=l; l.addEventListener("release",function(){lock=null;});
+        }).catch(function(){});
+      }
+    }catch(e){}
+  }
+
+  /* ---- render current block ---- */
+  function renderBlock(){
+    var b = BLOCKS[state.i];
+    $("idx").textContent = "Block "+(state.i+1)+" of "+BLOCKS.length+" · "+b.m+" min";
+    $("name").textContent = b.n;
+    $("cue").textContent = b.cue;
+    $("why").innerHTML = b.why;
+    $("screenTag").setAttribute("data-screen", b.screen==="away"?"away":(b.screen==="closed"?"closed":"on"));
+    $("screenTxt").textContent = SCREEN_LABEL[b.screen];
+    var ul = $("steps"); ul.innerHTML="";
+    b.steps.forEach(function(s){ var li=document.createElement("li"); li.textContent=s; ul.appendChild(li); });
+    $("veilName").textContent = b.n;
+    paintRail();
+    paintTimer();
+    updateEndsAt();
+    if(b.screen==="closed" && state.running) setDim(true);
+  }
+
+  function paintTimer(){
+    var t = mmss(state.left);
+    $("timer").textContent = t;
+    $("timer").className = "timer" + (state.running?"":" paused");
+    $("veilTimer").textContent = t;
+  }
+
+  function updateEndsAt(){
+    var rest = state.left;
+    for(var i=state.i+1;i<BLOCKS.length;i++) rest += BLOCKS[i].m*60;
+    var end = new Date(Date.now()+rest*1000);
+    $("endsAt").textContent = "Lights out " + hhmm(end);
+  }
+
+  /* ---- transport ---- */
+  function goTo(i){
+    if(i<0){ i=0; }
+    if(i>=BLOCKS.length){ finish(); return; }
+    state.i=i; state.left=BLOCKS[i].m*60; state.finished=false;
+    doneEl.hidden=true; blockEl.hidden=false;
+    renderBlock();
+  }
+  function advance(){
+    if(state.i >= BLOCKS.length-1){ chime("end"); finish(); return; }
+    chime("step");
+    setDim(false);
+    goTo(state.i+1);
+    stage.scrollTop = 0;
+  }
+  function finish(){
+    state.running=false; state.finished=true;
+    setDim(false);
+    blockEl.hidden=true; doneEl.hidden=false; foot.hidden=true;
+    $("playBtn").textContent="Start";
+    var n = parseInt(load("descent.count")||"0",10)+1;
+    store("descent.count", String(n));
+    store("descent.last", new Date().toDateString());
+    $("streakTxt").textContent = n===1 ? "First one logged." : "That's "+n+" evenings logged on this device.";
+    try{ if(lock){ lock.release(); lock=null; } }catch(e){}
+  }
+  function setPlaying(on){
+    state.running = on;
+    $("playBtn").textContent = on ? "Pause" : "Resume";
+    $("playBtn").className = "play" + (on?" go":"");
+    if(on){ last = Date.now(); keepAwake(); }
+    paintTimer();
+  }
+  function setDim(on){
+    state.dim = on;
+    veil.hidden = !on;
+    $("dimBtn").setAttribute("aria-pressed", on?"true":"false");
+    $("dimBtn").textContent = on ? "Screen up" : "Screen down";
+  }
+
+  /* ---- tick ---- */
+  setInterval(function(){
+    var now = Date.now();
+    $("clock").textContent = hhmm(new Date());
+    if(!state.running || !state.started || state.finished){ last = now; return; }
+    var d = (now-last)/1000; last = now;
+    state.left -= d;
+    if(state.left<=0){ advance(); return; }
+    paintTimer(); paintRail(); updateEndsAt();
+  }, 250);
+
+  /* ---- events ---- */
+  $("bedtime").addEventListener("input", renderPlan);
+  $("startBtn").addEventListener("click", function(){
+    state.started=true;
+    setup.hidden=true; blockEl.hidden=false; foot.hidden=false;
+    $("dimBtn").hidden=false; $("resetBtn").hidden=false;
+    goTo(0); setPlaying(true); chime("step");
+  });
+  $("playBtn").addEventListener("click", function(){ setPlaying(!state.running); });
+  $("nextBtn").addEventListener("click", function(){ setDim(false); advance(); });
+  $("backBtn").addEventListener("click", function(){ setDim(false); goTo(Math.max(0,state.i-1)); });
+  $("dimBtn").addEventListener("click", function(){ setDim(!state.dim); });
+  veil.addEventListener("click", function(){ setDim(false); });
+  $("soundBtn").addEventListener("click", function(){
+    state.sound = !state.sound;
+    this.setAttribute("aria-pressed", state.sound?"true":"false");
+    this.textContent = state.sound ? "Chime on" : "Chime off";
+    if(state.sound) chime("step");
+  });
+  $("resetBtn").addEventListener("click", function(){
+    state.started=false; state.finished=false; state.running=false;
+    setDim(false);
+    setup.hidden=false; blockEl.hidden=true; doneEl.hidden=true; foot.hidden=true;
+    $("dimBtn").hidden=true; $("resetBtn").hidden=true;
+    state.i=0; state.left=BLOCKS[0].m*60;
+    renderPlan();
+  });
+  document.addEventListener("keydown", function(e){
+    if(!state.started) return;
+    if(e.code==="Space"){ e.preventDefault(); setPlaying(!state.running); }
+    if(e.code==="ArrowRight"){ setDim(false); advance(); }
+    if(e.code==="ArrowLeft"){ setDim(false); goTo(Math.max(0,state.i-1)); }
+  });
+  document.addEventListener("visibilitychange", function(){
+    if(!document.hidden && state.running) keepAwake();
+  });
+
+  /* ---- boot ---- */
+  (function(){
+    var d = new Date(); var h = d.getHours();
+    if(h>=17 && h<=23){
+      var t = new Date(d.getTime()+TOTAL*60000);
+      var m = t.getMinutes()<30 ? 0 : 30;
+      $("bedtime").value = two(t.getHours())+":"+two(m);
+    }
+    buildRail();
+    renderPlan();
+    $("clock").textContent = hhmm(new Date());
+    var n = load("descent.count");
+    if(n) { /* count shown at finish */ }
+  })();
+})();
+</script>
